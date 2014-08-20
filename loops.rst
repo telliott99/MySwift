@@ -8,8 +8,8 @@ We are going to use some arrays below, even though they haven't been introduced 
 
 .. sourcecode:: bash
 
-    var L = [2,4,6]
-    for x in L { print(String(x) + " ")}
+    var intList = [2,4,6]
+    for x in intList { print(String(x) + " ")}
     println()
 
 .. sourcecode:: bash
@@ -18,7 +18,7 @@ We are going to use some arrays below, even though they haven't been introduced 
     2 4 6 
     >
 
-For some reason, here we need the explicit conversion to String.
+Here we need the explicit conversion to String, because the first thing that is evaluated inside ``print()`` is the addition of ``x`` to a String.
 
 We can get a range of values (closed at the high end)
 

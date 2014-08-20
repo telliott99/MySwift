@@ -35,6 +35,8 @@ Some other options are to run swift as an "interpreter" by just doing ``xcrun sw
     Hello Swift world
     >
 
+And yet another possibility is to use a "playground" in Xcode.
+
 As shown above, a basic print statement is ``println("a string")`` or ``print("a string")``.  Notice the absence of semicolons.
 
 One can also do variable substitution, like this
@@ -63,34 +65,21 @@ We're going to switch filenames now to ``test.swift``
     var s: String = String(x)
     println(s)
     
-This works, and prints what you'd expect.  If a value is not going to change (it's constant), use ``let``:
+This works, and prints what you'd expect.  If a value is not going to change (a constant), use ``let``:
 
 .. sourcecode:: bash
 
     let s = "Hello"
     println("\(s)")
 
-which also works, and prints what you'd expect.  The reason it works is that the compiler can sometimes infer type information from the context.
+which also works, and prints what you'd expect.  The reason it works is that the compiler can (almost always) infer type information from the context.
 
-Swift has the concept of values that may be ``nil`` or may be something.  Consider the following:
-
-.. sourcecode:: bash
-
-    var s : String = "123"
-    let m : Int? = s.toInt()
-    var t : String = "123x"
-    let n : Int? = t.toInt()
-    println(m)
-    println(n)
-
-The second conversion ``t.toInt()`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
-
-    > xcrun swift test.swift 
-    Optional(123)
-    nil
-    >
-
-The value of m and n is an "Optional".
+The usual style would be:
 
 .. sourcecode:: bash
+
+    var x = 2
+    var f = 1.23e4
+    println(f)
+    // prints:  12300
 

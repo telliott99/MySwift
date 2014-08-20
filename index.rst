@@ -9,13 +9,18 @@ Welcome to MySwift's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    basic
    loops
+   optionals
    collections
    functions
+   structs
    objects
+   enum
+   subscripts
+   generics
 
 Indices and tables
 ==================

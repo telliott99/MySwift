@@ -35,15 +35,26 @@ If you want to return a value, it must be typed
     3
     >
 
-Return multiple values:
+Return multiple values (from the Apple docs, with slight modification):
 
 .. sourcecode:: bash
 
-    func two() -> (String,String) {
-        return ("x","y")
+    func minMax(a: [Int]) -> (Int,Int) {
+        min = a[0]
+        max = a[1]
+        for i in a[1..<a.count] {
+            if i < min  {
+                min = i
+            }
+            if i > max {
+                max = i
+            }
+        }
+        return (min,max)
     }
-    var (s1,s2) : (String,String) = two()
-    println(s1 + " " + s2)
+    arr: [Int] = [8,-6,2,109,3,71]
+    var (s1,s2) : (Int,Int) = minMax(arr)
+    println("min = " + s1 + " and max = " + s2)
 
 .. sourcecode:: bash
 
@@ -94,7 +105,80 @@ Provide a function as an argument to a function:
 
     > xcrun swift test.swift 
     [1, 2]
-    > 
+    >
+
+-------------------
+Function parameters
+-------------------
+    
+Named parameters (also from the Apple docs):
+
+.. sourcecode:: bash
+
+    ffunc join(string1 s1: String, string2 s2: String, withJoiner joiner: String) -> String {
+        return s1 + joiner + s2
+    }
+
+    println(join(string1: "hello", string2: "world", withJoiner: ", "))
+
+Prints:
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    hello, world
+    >
+
+As the code shows, we have two identifiers for each variable, one used in calling the function, and the other used inside the function.
+
+While the "external parameter" and the "internal parameter" identifiers can be different (above), they don't have to be.  In that case, mark the arguments with "#"
+
+.. sourcecode:: bash
+
+    func containsCharacter(#string: String, #char: Character) -> Bool {
+        for c in string {
+            if char == c {
+                return true
+            }
+        }
+        return false
+    }
+
+    let containsV = containsCharacter(string: "aardvark", char: "v")
+    if containsV {
+        println("aardvark contains a v")
+    }
+
+Prints:
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    aardvark contains a v
+    >
+
+A function can also have default parameters.  As in Python, the default parameters must come after all non-default parameters:
+
+.. sourcecode:: bash
+
+    func join(s1: String, s2: String, joiner: String = " ") -> String {
+        return s1 + joiner + s2
+    }
+    println(join("hello","world"))
+    println(join("hello","world",joiner: "-"))
+    
+.. sourcecode:: bash
+     
+    > xcrun swift test.swift 
+    hello world
+    hello-world
+    >
+    
+There are several other fancy twists on parameters that you can read about in the docs, for example:  variadic parameters (where the number isn't known at compile time), parameters that are constant.
+
+--------
+Closures
+--------
 
 According to the docs:
 
@@ -130,4 +214,4 @@ Here is the docs' example where the comparison function is turned into a closure
 
 (I reformated the closure).  Personally, I don't see what the big deal is.  I prefer the named function for this one.
 
-
+Where they do come in handy is for callbacks.  If we start a dialog to obtain a filename, we pass into the dialog code where we want to go after the name is obtained.

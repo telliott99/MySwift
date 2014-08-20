@@ -8,9 +8,9 @@ Two basic collection types are arrays and dictionaries, which use syntax like in
 
 .. sourcecode:: bash
 
-    var L = ["apples", "bananas", "cats"]
-    println(L[0])
-    for s in L { print(s + " ") }
+    var fruitList = ["apples", "bananas", "cats"]
+    println(fruitList[0])
+    for s in fruitList { print(s + " ") }
     println()
 
 .. sourcecode:: bash
@@ -20,25 +20,25 @@ Two basic collection types are arrays and dictionaries, which use syntax like in
     apples bananas cats 
     >
 
-Notice the ``for x in L`` usage.
+Notice the ``for s in fruitList`` usage.
 
 Array access (0-based indexing):
 
 .. sourcecode:: bash
 
-    var a = ["a","b","c","d","e","f"]
-    println(a)
-    a[4] = "k"
-    println(a)
+    var array = ["a","b","c","d","e","f"]
+    println(array)
+    array[4] = "k"
+    println(array)
     
     // fatal error: Array index out of range
-    // a[3...6] = ["w","x","y","z"]
-    a[3...5] = ["x","y","z"]
-    println(a)
+    // array[3...6] = ["w","x","y","z"]
+    array[3...5] = ["x","y","z"]
+    println(array)
 
-    a.insert("spam", atIndex: 1)
-    println(a)
-    println(a.count)
+    array.insert("spam", atIndex: 1)
+    println(array)
+    println(array.count)
 
 
 .. sourcecode:: bash
@@ -53,36 +53,36 @@ Array access (0-based indexing):
 
 .. sourcecode:: bash
 
-    var a = [Int]()
-    println(a)
-    println("a is of type [Int]")
-    println("a has \(a.count) items")
-    for x in 1...3 { a.append(x) }
-    println(a)
-    println("Now, a has \(a.count) items")
+    var array = [Int]()
+    println(array)
+    println("array is of type [Int]")
+    println("array has \(array.count) items")
+    for x in 1...3 { array.append(x) }
+    println(array)
+    println("Now, array has \(array.count) items")
 
 .. sourcecode:: bash
 
     > xcrun swift test.swift 
     []
-    a is of type [Int]
-    a has 0 items
+    array is of type [Int]
+    array has 0 items
     [1, 2, 3]
-    Now, a has 3 items
+    Now, array has 3 items
     >
 
 This works as you'd expect
 
 .. sourcecode:: bash
 
-    var a = [Double](count: 3, repeatedValue: 2.5)
+    var intArr = [Double](count: 3, repeatedValue: 2.5)
 
 Swift has array enumeration:
 
 .. sourcecode:: bash
 
-    var L = ["apples", "bananas", "cats"]
-    for (index, value) in enumerate(L) {
+    var fruitArr = ["apples", "bananas", "cats"]
+    for (index, value) in enumerate(fruitArr) {
         println("Item \(index + 1): \(value)")
     }
 
@@ -99,8 +99,8 @@ Here is a simple dictionary
 .. sourcecode:: bash
 
     var D = ["a":"apple","b":"banana","c":"cookie"]
-    for (k,v) in D {
-        println("\(k) is for \(v)")
+    for (key,values) in D {
+        println("\(key) is for \(value)")
     }
 
 .. sourcecode:: bash
