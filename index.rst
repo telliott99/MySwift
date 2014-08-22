@@ -14,12 +14,15 @@ Contents:
    basic
    loops
    optionals
-   collections
+   arrays
+   dictionaries
    functions
    structs
    objects
+   stdlib
    enum
    subscripts
+   extensions
    generics
 
 Indices and tables

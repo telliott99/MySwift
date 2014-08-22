@@ -158,3 +158,31 @@ Use the same struct but with Ints:
     3
     >
 
+I don't have a good use case yet, but you can have more than one generic type:
+
+.. sourcecode:: bash
+
+    func pp <S,T> (s: S, t: T) {
+        println("The value of s is \(s) and t is \(t)")
+    }
+    pp(1.33, 17)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    The value of s is 1.33 and t is 17
+    >
+
+
+And you can name them anything you like (although caps are standard)
+
+.. sourcecode:: bash
+
+    func pp <SillyType1,SillyType2> 
+        (s: SillyType1, t: SillyType2) {
+        println("The value of s is \(s) and t is \(t)")
+    }
+    pp(1.33, 17)
+
+
+

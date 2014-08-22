@@ -1,16 +1,16 @@
-.. _collections:
+.. _arrays:
 
-###########
-Collections
-###########
+######
+Arrays
+######
 
 Two basic collection types are arrays and dictionaries, which use syntax like in Python:
 
 .. sourcecode:: bash
 
-    var fruitList = ["apples", "bananas", "cats"]
-    println(fruitList[0])
-    for s in fruitList { print(s + " ") }
+    var fruits = ["apples", "bananas", "cats"]
+    println(fruits[0])
+    for f in fruits { print(f + " ") }
     println()
 
 .. sourcecode:: bash
@@ -20,7 +20,7 @@ Two basic collection types are arrays and dictionaries, which use syntax like in
     apples bananas cats 
     >
 
-Notice the ``for s in fruitList`` usage.
+Notice the ``for f in fruits`` usage.
 
 Array access (0-based indexing):
 
@@ -93,53 +93,12 @@ Swift has array enumeration:
     Item 2: bananas
     Item 3: cats
     >
-    
-Here is a simple dictionary
 
-.. sourcecode:: bash
+-------
+Sorting
+-------
 
-    var D = ["a":"apple","b":"banana","c":"cookie"]
-    for (key,values) in D {
-        println("\(key) is for \(value)")
-    }
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    b is for banana
-    c is for cookie
-    a is for apple
-    >
-
-Another example:
-
-.. sourcecode:: bash
-
-    var D: [String: Int] = ["apple":1, "banana":2]
-    println(D)
-    D["apple"] = 0
-    println(D)
-    D["cookie"] = 10
-    println(D)
-
-    if let oldValue = D.updateValue(100, forKey:"cookie") {
-        println("The old value was \(oldValue)")
-    }
-    println(D)
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    [apple: 1, banana: 2]
-    [apple: 0, banana: 2]
-    [cookie: 10, apple: 0, banana: 2]
-    The old value was 10
-    [cookie: 100, apple: 0, banana: 2]
-    >
-
-As usual for a dictionary, the keys are not sorted.  Unlike Python, the ``for`` construct on a dictionary returns a tuple of (key,value) pairs.
-
-For sorted arrays, one can use ``sorted``
+To obtain a sorted array, one can use either ``sort`` (in-place sort) or ``sorted`` (returns a new sorted array).
 
 .. sourcecode:: bash
 
@@ -147,7 +106,9 @@ For sorted arrays, one can use ``sorted``
     var sorted_names = sorted(names)
     println(sorted_names)
 
-This prints what you'd expect.  The use of ``let`` here is a little weird, it means that the length of the array can't be changed, but one can still change values
+This prints what you'd expect.  The use of ``let`` here looks a little weird, the "constant" part of this is it means that the length of the array can't be changed, but one can still change the values.
+
+
 
 .. sourcecode:: bash
 
@@ -155,7 +116,9 @@ This prints what you'd expect.  The use of ``let`` here is a little weird, it me
     a.sort { $0 < $1 }
     println(a)
 
-This also prints what you'd expect.  We are using a closure rather than a named function, but we'll look at those in a later section.  It's important that the comparison method must be provided, you can't just call ``sort``.
+This also prints what you might guess.  We are using a closure rather than a named function, but we'll look at those in a later section.  
+
+It's important that the comparison method must be provided, you can't just call ``sort``.
 
 .. sourcecode:: bash
 
@@ -163,21 +126,37 @@ This also prints what you'd expect.  We are using a closure rather than a named 
     [Alex, Barry, Chris]
     >
 
-I don't see anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.
+Swift has a few global functions, of which some work on arrays including ``sort(array)``, ``sort(array, predicate)``, ``sorted(array)`` and ``reversed``.
 
-And I don't understand this one yet.
+Here is a ``cmp`` function for Strings:
 
 .. sourcecode:: bash
 
-    var D: [String: Int] = ["apple":1, "banana":2]
-    for s in D.keys {
-        print(s)
-        println(D[s])
+    func cmp(a: String, b: String) -> Bool {
+        let aCount = countElements(a)
+        let bCount = countElements(b)
+        if aCount < bCount {
+            return true
+        }
+        if aCount > bCount {
+            return false
+        }
+        return a < b
     }
 
+    var a: [String] = ["a","abc","c","cd"]
+    println(sorted(a,cmp))
+    println(a)
+    a.sort(cmp)
+    println(a)
+
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
-    appleOptional(1)
-    bananaOptional(2)
+    > xcrun swift test.swift
+    [a, c, cd, abc]
+    [a, abc, c, cd]
+    [a, c, cd, abc]
     >
+
+We've sorted first by length and then lexicographically, as desired.
+
