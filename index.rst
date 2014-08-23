@@ -26,8 +26,10 @@ Contents:
    generators
    protocols
    extensions
+   matrix
    generics
    stdlib
+   modules
 
 Indices and tables
 ==================
