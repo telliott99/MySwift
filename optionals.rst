@@ -4,7 +4,7 @@
 Optionals
 #########
 
-Swift has optional values (called "Optionals") that may be ``nil``, not have a value, or may have a value including a basic type like Int or String.  Consider the following:
+Swift has optional values (called "Optionals") that may be ``nil``, and not have a value, or they may have a value including a basic type like Int or String.  Consider the following:
 
 .. sourcecode:: bash
 

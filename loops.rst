@@ -50,3 +50,20 @@ A while loop:
     > xcrun swift test.swift 
     Yes
     >
+
+And a traditional loop
+
+.. sourcecode:: bash
+
+    var count = 0
+    for var i = 0; i < 3; ++i {
+        count += 1
+    }
+    println(count)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    3
+    >
+

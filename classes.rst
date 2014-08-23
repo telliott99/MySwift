@@ -1,7 +1,7 @@
-.. _objects:
+.. _classes:
 
 #######
-Objects
+Classes
 #######
 
 .. sourcecode:: bash

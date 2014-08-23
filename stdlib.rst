@@ -142,3 +142,29 @@ Functional programming tools:
     [(1, apple), (2, banana), (3, cookie)]
     >
 
+Here is one that is not in the library, but that I saw implemented in a complicated way.  Here is my simple version:
+
+.. sourcecode:: bash
+
+    var a = ["apple","banana","cookie"]
+    var sep = "*"
+
+    func interpose(sep: String, a: Array<String>) -> Array<String> {
+        var result = [String]()
+        if a.count == 0 {
+            return result
+        }
+        result.append(a[0])
+        for i in 1...(a.count - 1) {
+            result.append(sep)
+            result.append(a[i])
+        }
+        return result
+    }
+
+    println(interpose(sep,a))
+
+.. sourcecode:: bash
+
+    xcrun swift test.swift
+    ["apple","*","banana","*","cookie"]

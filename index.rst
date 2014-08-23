@@ -11,19 +11,23 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   basic
+   intro
+   command_line
    loops
    optionals
    arrays
    dictionaries
    functions
    structs
-   objects
-   stdlib
+   classes
+   files
    enum
    subscripts
+   generators
+   protocols
    extensions
    generics
+   stdlib
 
 Indices and tables
 ==================

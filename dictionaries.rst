@@ -40,7 +40,28 @@ We can access the values by subscript notation.
     D["cookie"] = 10
     println(D)
 
-``updateValue`` returns the old value if present, otherwise ``nil``
+In the code above we declared the type of ``D`` as ``[String: Int]``.  This also works:
+
+.. sourcecode:: bash
+
+    var D = Dictionary<String,Int>()
+    var D1: Dictionary<String,Int> = ["apple":1]
+    println(D1["apple"]!)
+    
+and when run it prints ``1``, as you'd expect.  What is going on is that the ``Dictionary`` class is actually defined as a generic ``Dictionary<KeyType,ValueType>``.  The subscript notation works because that mechanism has been defined inside the class.
+
+In the first line ``var D = Dictionary<String,Int>()``, we are getting an instance of dictionary, so we need the call operator ``( )``, which will call the ``init()`` method of the class.
+
+Also in the code above we did ``D1["apple"]!``.  In general, dictionary operations return a value if the key is present, and otherwise ``nil``.  So the value of return type is a ``ValueType?``, which you must force to ``ValueType`` by saying ``ValueType!`` if you're sure it's not ``nil``.  Of course, you should test for ``nil``, so we should really do:
+
+.. sourcecode:: bash
+
+    var D: Dictionary<String,Int> = ["apple":1]
+    if let value = D["apple"] {
+        println(value!)
+    }
+
+``updateValue`` returns the old value if present, otherwise it returns ``nil``
 
 .. sourcecode:: bash
 

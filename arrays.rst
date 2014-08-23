@@ -77,7 +77,7 @@ This works as you'd expect
 
     var intArr = [Double](count: 3, repeatedValue: 2.5)
 
-Swift has array enumeration:
+Swift has enumeration:
 
 .. sourcecode:: bash
 
@@ -93,7 +93,42 @@ Swift has array enumeration:
     Item 2: bananas
     Item 3: cats
     >
+    
+Removing a value by index
 
+.. sourcecode:: bash
+
+    var a = ["a","b","c"]
+    println("\(a.removeAtIndex(1))")
+    println(a)
+    a.insert("x", atIndex:0)
+    println(a)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    b
+    [a, c]
+    [x, a, c]
+    >
+
+.. sourcecode:: bash
+
+    var a = Array(1...10)
+    func isEven(i: Int) -> Bool {
+       let x = i % 2
+       return x == 0
+    }
+
+    let even = a.filter(isEven)
+    println(even)
+    
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    [2, 4, 6, 8, 10]
+    >
+    
 -------
 Sorting
 -------
@@ -106,9 +141,7 @@ To obtain a sorted array, one can use either ``sort`` (in-place sort) or ``sorte
     var sorted_names = sorted(names)
     println(sorted_names)
 
-This prints what you'd expect.  The use of ``let`` here looks a little weird, the "constant" part of this is it means that the length of the array can't be changed, but one can still change the values.
-
-
+This prints what you'd expect.  The use of ``let`` here looks a little weird, the "constant" part of this means that the length of the array can't be changed, but one can still change the values.
 
 .. sourcecode:: bash
 
@@ -116,9 +149,9 @@ This prints what you'd expect.  The use of ``let`` here looks a little weird, th
     a.sort { $0 < $1 }
     println(a)
 
-This also prints what you might guess.  We are using a closure rather than a named function, but we'll look at those in a later section.  
+This also prints what you might guess.  This is a bit advanced, because we are using a closure (notice the brackets ``{ }``) rather than a named function, and there is no call operator ``( )``, but we'll look at the use of closures in a later section.  
 
-It's important that the comparison method must be provided, you can't just call ``sort``.
+The important thing is that you must provide a comparison method, you can't just call ``sort``.
 
 .. sourcecode:: bash
 

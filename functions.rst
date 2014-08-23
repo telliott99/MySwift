@@ -35,6 +35,67 @@ If you want to return a value, it must be typed
     3
     >
 
+Here is an example from the Apple docs:
+
+.. sourcecode:: bash
+
+    func sumOf(numbers: Int...) -> Int {
+        var sum = 0
+        for n in numbers {
+            sum += n
+        }
+        return sum
+    }
+
+    println(sumOf())
+    println(sumOf(42,597,12))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    0
+    651
+    >
+
+The ``...`` means the function takes a variadic parameter (number of items is unknown at compile-time---see the docs).
+
+But then they say:
+
+    Functions can be nested. Nested functions have access to variables that were declared in the outer function. You can use nested functions to organize the code in a function that is long or complex.
+    
+So let's try something.  Add ``let x = 2`` as line 1.
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    2
+    653
+    >
+
+They're not kidding!  The ``x`` at global scope is available inside ``sumOf``.  You can nest deeper:
+
+.. sourcecode:: bash
+
+    let s = "abc"
+    func f() {
+        let t = "def"
+        println(s)
+        func g() {
+            println(s + t)
+            println(s + "xyz")
+        }
+        g()
+    }
+    f()
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    abc
+    abcdef
+    abcxyz
+    >
+
 Return multiple values (from the Apple docs, with slight modification):
 
 .. sourcecode:: bash
@@ -174,7 +235,7 @@ A function can also have default parameters.  As in Python, the default paramete
     hello-world
     >
     
-There are several other fancy twists on parameters that you can read about in the docs, for example:  variadic parameters (where the number isn't known at compile time), parameters that are constant.
+There are several other fancy twists on parameters that you can read about in the docs, for example:  variadic parameters, parameters that are constant.
 
 --------
 Closures
