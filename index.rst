@@ -30,6 +30,7 @@ Contents:
    generics
    stdlib
    modules
+   quickref
 
 Indices and tables
 ==================

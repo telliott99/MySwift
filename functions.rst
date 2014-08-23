@@ -176,7 +176,7 @@ Named parameters (also from the Apple docs):
 
 .. sourcecode:: bash
 
-    ffunc join(string1 s1: String, string2 s2: String, withJoiner joiner: String) -> String {
+    func join(string1 s1: String, string2 s2: String, withJoiner joiner: String) -> String {
         return s1 + joiner + s2
     }
 

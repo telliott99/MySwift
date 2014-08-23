@@ -66,3 +66,34 @@ The Framework is for ``Cocoa.h``.  I think the ``-I`` is for something that can 
     >
 
 So the question becomes, how to do this for a swift module?
+
+I can do it easily in Xcode.  Make a new project for a command line tool (or whatever).  Do File > New > File and get a new Swift file in the project named whatever you like.  In that file put this code:
+
+.. sourcecode:: bash
+
+    class C  {
+        var c: String = "Hello, world"
+    }
+
+``main.swift``
+
+.. sourcecode:: bash
+
+    var c = C()
+    println(c.c)
+
+No import statement is needed!
+
+Starting from Xcode I made a Framework MyF and then copied MyF.h and File.swift to the Desktop and this:
+
+xcrun swiftc -c File.swift -import-objc-header MyF.h -F /System/Library/Frameworks -I/usr/include
+
+gave File.o
+
+xcrun swiftc -c File.swift -import-objc-header MyF.h -F /System/Library/Frameworks -I/usr/include
+
+xcrun swiftc -c test.swift -import-objc-header MyF.h -F /System/Library/Frameworks -I.
+
+
+
+xcrun swiftc -o app File.o
