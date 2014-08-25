@@ -4,14 +4,16 @@
 Arrays
 ######
 
-Two basic collection types are arrays and dictionaries, which use syntax like in Python:
+The two basic collection types are arrays and dictionaries, which use syntax something like in Python:
 
 .. sourcecode:: bash
 
-    var fruits = ["apples", "bananas", "cats"]
+    let fruits = ["apples", "bananas", "cats"]
     println(fruits[0])
     for f in fruits { print(f + " ") }
     println()
+
+Array access starts from ``0`` (indexing is 0-based):
 
 .. sourcecode:: bash
 
@@ -20,10 +22,16 @@ Two basic collection types are arrays and dictionaries, which use syntax like in
     apples bananas cats 
     >
 
-Notice the ``for f in fruits`` usage.
+Notice the ``for f in fruits`` usage.  To check the number of items in an array, use ``count``.  If there are no items, then ``isEmpty()`` will return ``true``.
 
-Array access (0-based indexing):
-
+.. sourcecode:: bash
+    
+    var a = [4,5,6]
+    a.count == 3
+    // true
+    a.isEmpty()
+    // false
+    
 .. sourcecode:: bash
 
     var array = ["a","b","c","d","e","f"]
@@ -31,25 +39,110 @@ Array access (0-based indexing):
     array[4] = "k"
     println(array)
     
-    // fatal error: Array index out of range
-    // array[3...6] = ["w","x","y","z"]
-    array[3...5] = ["x","y","z"]
-    println(array)
-
-    array.insert("spam", atIndex: 1)
-    println(array)
-    println(array.count)
-
-
 .. sourcecode:: bash
 
     > xcrun swift test.swift 
     [a, b, c, d, e, f]
     [a, b, c, d, k, f]
-    [a, b, c, x, y, z]
-    [a, spam, b, c, x, y, z]
-    7
     >
+
+------------------
+Modifying an array
+------------------
+
+One way is to use a subscript, as shown above.  Another way is this:
+
+.. sourcecode:: bash
+
+    var a = [4,5,6]
+    a.insert(10, atIndex:1)
+    // [4,10,5,6]
+
+If we're adding onto the end, use ``append`` for a single value or **use concatenation as the equivalent of Python's ``extend``**
+
+.. sourcecode:: bash
+
+    var a = [4,5,6]
+    a.append(10)
+    // [4,5,6,10]
+    a += [21,22,23]
+    // [4,5,6,10,21,22,23]
+
+To insert at a particular position, use ``insert(value, atIndex: index)``, like so:
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c"]
+    a.insert("spam", atIndex: 1)
+    println(a)
+    \\ ["a","spam","b","c"]
+    println(a.count)
+    \\ 4
+
+One can also use Range (slice) notation with arrays.
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c","d","e","f"]    
+    // fatal error: Array index out of range
+    // array[3...6] = ["w","x","y","z"]
+    array[3...5] = ["x","y","z"]
+    println(array)
+    // ["a","b","c","x","y","z"]
+
+The valid indexes in an array run from 0 to ``count - 1`` so we can do:
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c","d","e","f"]
+    let end = a.count - 1   
+    array[3...end] = ["x","y","z"]
+    println(array)
+    // ["a","b","c","x","y","z"]
+
+As the docs say
+
+    You can also use subscript syntax to change a range of values at once, even if the replacement set of values has a different length than the range you are replacing:
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c","d","e","f"]
+    a[1...4] = ["x"]
+    // ["a","x","f"]
+    var b = a
+    b[1] = ["j","k","l"]
+    // ["a","j","k","l","f"]
+    
+Arrays are value types, so ``a`` and ``b`` above have different values.
+
+Removing a value by index
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c"]
+    println("\(a.removeAtIndex(1))")
+    println(a)
+    a.insert("x", atIndex:0)
+    println(a)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    b
+    [a, c]
+    [x, a, c]
+    >
+
+Rather than ``pop`` use ``removeLast``:
+
+.. sourcecode:: bash
+
+    var a = [4,5,6]
+    let b = a.removeLast()
+    // a has the value [4,5]
+    // b has the value 4
+
+One can specify the type of an array using two synonymous approaches:  ``[Int]`` or ``Array<Int>``.  Usually the first, shorthand, is preferred.  To instantiate, add the call operator ``()``:
 
 .. sourcecode:: bash
 
@@ -70,12 +163,23 @@ Array access (0-based indexing):
     [1, 2, 3]
     Now, array has 3 items
     >
+    
+In this last example, we've used string interpolation to print the value of the property ``count``.
 
 This works as you'd expect
 
 .. sourcecode:: bash
 
     var intArr = [Double](count: 3, repeatedValue: 2.5)
+    
+Looping over the values can be done by ``for-in``:
+
+.. sourcecode:: bash
+
+    var a = 1...2
+    for var i in a { println("\(i)") }
+    \\ 1
+    \\ 2
 
 Swift has enumeration:
 
@@ -93,24 +197,8 @@ Swift has enumeration:
     Item 2: bananas
     Item 3: cats
     >
-    
-Removing a value by index
 
-.. sourcecode:: bash
-
-    var a = ["a","b","c"]
-    println("\(a.removeAtIndex(1))")
-    println(a)
-    a.insert("x", atIndex:0)
-    println(a)
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    b
-    [a, c]
-    [x, a, c]
-    >
+As a final example, a little functional programming:
 
 .. sourcecode:: bash
 
@@ -129,67 +217,3 @@ Removing a value by index
     [2, 4, 6, 8, 10]
     >
     
--------
-Sorting
--------
-
-To obtain a sorted array, one can use either ``sort`` (in-place sort) or ``sorted`` (returns a new sorted array).
-
-.. sourcecode:: bash
-
-    let names = ["Chris", "Alex", "Barry"]
-    var sorted_names = sorted(names)
-    println(sorted_names)
-
-This prints what you'd expect.  The use of ``let`` here looks a little weird, the "constant" part of this means that the length of the array can't be changed, but one can still change the values.
-
-.. sourcecode:: bash
-
-    var a = ["Chris", "Alex", "Barry"]
-    a.sort { $0 < $1 }
-    println(a)
-
-This also prints what you might guess.  This is a bit advanced, because we are using a closure (notice the brackets ``{ }``) rather than a named function, and there is no call operator ``( )``, but we'll look at the use of closures in a later section.  
-
-The important thing is that you must provide a comparison method, you can't just call ``sort``.
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    [Alex, Barry, Chris]
-    >
-
-Swift has a few global functions, of which some work on arrays including ``sort(array)``, ``sort(array, predicate)``, ``sorted(array)`` and ``reversed``.
-
-Here is a ``cmp`` function for Strings:
-
-.. sourcecode:: bash
-
-    func cmp(a: String, b: String) -> Bool {
-        let aCount = countElements(a)
-        let bCount = countElements(b)
-        if aCount < bCount {
-            return true
-        }
-        if aCount > bCount {
-            return false
-        }
-        return a < b
-    }
-
-    var a: [String] = ["a","abc","c","cd"]
-    println(sorted(a,cmp))
-    println(a)
-    a.sort(cmp)
-    println(a)
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    [a, c, cd, abc]
-    [a, abc, c, cd]
-    [a, c, cd, abc]
-    >
-
-We've sorted first by length and then lexicographically, as desired.
-

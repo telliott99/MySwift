@@ -56,7 +56,7 @@ And a traditional loop
 .. sourcecode:: bash
 
     var count = 0
-    for var i = 0; i < 3; ++i {
+    for i = 0; i < 3; ++i {
         count += 1
     }
     println(count)
@@ -66,4 +66,43 @@ And a traditional loop
     > xcrun swift test.swift
     3
     >
+
+If you want to access the value of ``i`` after the loop terminates, declare it outside the loop as ``var i: Int``.
+
+.. sourcecode:: bash
+
+    var i: Int
+    for i = 0; i < 3; ++i {
+        ..
+    }
+    println(i)
+    // i == 3  !!!
+
+An odd way to do something ``n`` times.  Notice the``_`` variable (a way of saying we will ignore this value, and it's not available inside the loop)
+
+.. sourcecode:: bash
+
+    let base = 2
+    let power = 10
+    var result = 1
+    for _ in 1...power {
+        result *= base
+    }
+    // result == 32
+    
+This is legal!
+
+.. sourcecode:: bash
+
+    var i: Int
+    ifeellikeit = true
+    for i = 0; i < 10; i++ {
+        print("\(i)) "
+        if ifeellikeit {
+            i += 7
+        }
+        println
+    }
+    \\ prints 0 9 10
+
 

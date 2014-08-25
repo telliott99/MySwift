@@ -27,7 +27,20 @@ We can ask for
     - ``Array(D.values)`` (returns tuples with key/value pair)
     - ``D.count`` (an Int value)
     
-No separate method for just the "values".
+The docs say that you can also get just the ValueTypes from "values".
+
+.. sourcecode:: bash
+
+    var airports = ["DUB":Dublin, TYO:"Tokyo"]
+    for code in airports {
+        println("\(code): \(airports[code])")
+    }
+    for code, city in airports.values {
+    println("\(code): \(city)")
+    }
+    for city in airports.values {
+    println("\(city)")
+    }
 
 We can access the values by subscript notation.
 

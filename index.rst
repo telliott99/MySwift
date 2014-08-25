@@ -12,12 +12,15 @@ Contents:
    :maxdepth: 1
 
    intro
+   strings
    command_line
    loops
    optionals
    arrays
+   sorting
    dictionaries
    functions
+   closures
    structs
    classes
    files
