@@ -4,7 +4,9 @@
 Random numbers
 ##############
 
-Swift doesn't seem to have a built-in facility for getting random numbers.  However, there are some Unix functions available, after an ``import Foundation``.  These are ``arc4random``, ``arc4random_uniform``, and ``random``.  Only ``random`` allows you to set the seed (with ``srandom``, which is usually called with the time, as in ``srandom(time(NULL))``.
+Swift doesn't seem to have a built-in facility for getting random numbers.  However, there are some Unix functions available, after an ``import Foundation``.  These are ``arc4random``, ``arc4random_uniform``, ``rand``, and ``random``.  
+
+Only ``rand`` and ``random`` allow you to set the seed (with ``srand`` or ``srandom`` respectively).  These are usually called with the time, as in ``srand(time(NULL))``.
 
 http://iphonedevelopment.blogspot.com/2008/10/random-thoughts-rand-vs-arc4random.html
 
@@ -131,17 +133,17 @@ which appears to be in the range 0 to
 
     pow(Double(2),Double(31)) - 1
 
-as we would expect for a signed int32, which is what ``Int`` is.  So, ``random`` gives an Int, which is good, but it doesn't respond to ``seed``.  ``rand`` does:
+as we would expect for a signed int32, which is what ``Int`` is.  So, ``random`` gives an Int, which is good, and it can be seeded:
 
 .. sourcecode:: bash
 
     import Foundation
 
     func getSeries(seed: Int) -> [Int] {
-        srand(137)
+        srandom(137)
         var a = Array<Int>()
         for i in 1...5 {
-            a.append(Int(rand()))
+            a.append(random())
         }
         return a
     }
@@ -157,28 +159,28 @@ as we would expect for a signed int32, which is what ``Int`` is.  So, ``random``
 .. sourcecode:: bash
 
     > xcrun swift test.swift
-    2302559 44403467 1112244360 1793295032 2124100826 
-    2302559 44403467 1112244360 1793295032 2124100826 
+    171676246 1227563367 950914861 1789575326 941409949 
+    171676246 1227563367 950914861 1789575326 941409949 
     >
 
 If you want to "shuffle", the correct algorithm is to move through the array and do an exchange with a random value from the current position *through the end of the array*
 
 .. sourcecode:: bash
 
-import Foundation
+    import Foundation
 
-func shuffle(a: [Int]) {
-    let top = a.count-1
-    for i in 0...top {
-        let r = UInt32(top - i)
-        let d = Int(arc4random_uniform(r))
-        let j = i + d
-        let tmp = a[i]
-        a[i] = a[j]
-        a[j] = tmp
+    func shuffle(a: [Int]) {
+        let top = a.count-1
+        for i in 0...top {
+            let r = UInt32(top - i)
+            let d = Int(arc4random_uniform(r))
+            let j = i + d
+            let tmp = a[i]
+            a[i] = a[j]
+            a[j] = tmp
+        }
     }
-}
 
-shuffle(Array(1...100))
+    shuffle(Array(1...100))
 
 This should work, but I am getting the error:  ``error: '@lvalue $T5' is not identical to 'Int'    a[i] = a[j]``.  It is not letting me assign an Int to ``a[i]`` because the value ``a[i]`` is not an Int.  Weird.
