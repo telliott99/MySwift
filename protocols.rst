@@ -21,13 +21,15 @@ Here is an example from the docs
     let john = Person(fullName: "John Appleseed")
     println("\(john): \(john.fullName)")
 
+What this means is that we are constructing a protocol named ``FullyNamed``, and to follow the protocol an instance must have a property ``fullName`` that is a String and is accessible by ``get`` (``obj.fullName`` returns a String).  The ``struct`` Person is declared as following the protocol, and the compiler can check that it does.
+
 .. sourcecode:: bash
 
     > xcrun swift test.swift
     test.Person: John Appleseed
     >
 
-And here is another one:
+Here is another one:
 
 .. sourcecode:: bash
 
@@ -44,7 +46,7 @@ And here is another one:
         }
         var fullName: String {
             return (prefix != nil ? prefix! + " " : "") + name
-        } 
+        }
     }
     var ncc1701 = Starship(name: "Enterprise", prefix: "USS")
     println("\(ncc1701): \(ncc1701.fullName)")
@@ -55,13 +57,17 @@ And here is another one:
     test.Starship: USS Enterprise
     >
 
-The neat thing about this example is we see a good use of Optional.  ``prefix`` is declared as ``var prefix: String?``, and when we call
+    The neat thing about this example is we see a good use of Optional.  ``prefix`` is declared as ``var prefix: String?``, and when we call
 
 .. sourcecode:: bash
 
     return (prefix != nil ? prefix! + " " : "") + name
     
 We first test whether ``prefix`` holds a value, and if so, we get rid of the Optional part with ``prefix!``.
+
+Some other common protocols defined already are Equatable, Comparable, Hashable, and Printable.  
+
+For more about those, see :ref:`Generics <generics>`::
 
 Sequence type is a protocol.  Here is a demo that I got off the web:
 

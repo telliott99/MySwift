@@ -171,8 +171,27 @@ Provide a function as an argument to a function:
 -------------------
 Function parameters
 -------------------
+
+It may be useful to require the caller to identify the parameters as they are entered into the function call.  For example, when calling ``NSMakeRect`` one would do something like this:
+
+.. sourcecode:: bash
+
+    let r = NSMakeRect(x:1.0,y:1.0,width:50.0,height:50.0)
+
+``x``, ``y``, ``width`` and ``height`` are named parameters.  The declaration of the function might be something like this
+
+.. sourcecode:: bash
+
+    ``func NSMakeRect(x x: Double, y y: Double, width w: Double, height h: Double)``
     
-Named parameters (also from the Apple docs):
+The *external* parameter name preceeds the *internal* parameter name.  In this case, the internal name is already a good external name for ``x`` and ``y``.  So combine them, like this:
+
+.. sourcecode:: bash
+
+    ``func NSMakeRect(#x: Double, #y: Double, width w: Double, height h: Double)``
+
+    
+An example from the Apple docs:
 
 .. sourcecode:: bash
 
@@ -192,7 +211,7 @@ Prints:
 
 As the code shows, we have two identifiers for each variable, one used in calling the function, and the other used inside the function.
 
-While the "external parameter" and the "internal parameter" identifiers can be different (above), they don't have to be.  In that case, mark the arguments with "#"
+As we said, while the "external parameter" and the "internal parameter" identifiers can be different (above), they don't have to be.  In that case, the arguments are marked with "#".  Here is the example in the docs:
 
 .. sourcecode:: bash
 
@@ -218,7 +237,11 @@ Prints:
     aardvark contains a v
     >
 
-A function can also have default parameters.  As in Python, the default parameters must come after all non-default parameters:
+------------------
+Default parameters
+------------------
+
+A function can also have default parameters.  As in Python, the *default parameters must come after all non-default parameters*:
 
 .. sourcecode:: bash
 
@@ -244,10 +267,6 @@ Closures
 According to the docs:
 
     Closures are self-contained blocks of functionality that can be passed around and used in your code. Closures in Swift are similar to blocks in C and Objective-C and to lambdas in other programming languages.
-
-Here are some examples of closure declarations:
-
-http://fuckingclosuresyntax.com
 
 Here is the docs' example where the comparison function is turned into a closure:
 
@@ -275,4 +294,4 @@ Here is the docs' example where the comparison function is turned into a closure
 
 (I reformated the closure).  Personally, I don't see what the big deal is.  I prefer the named function for this one.
 
-Where they do come in handy is for callbacks.  If we start a dialog to obtain a filename, we pass into the dialog code where we want to go after the name is obtained.
+Where they do come in handy is for callbacks.  If we start a dialog to obtain a filename, we can pass into the dialog the code where we want execution to go after the name is obtained.

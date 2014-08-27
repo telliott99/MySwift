@@ -18,6 +18,7 @@ Contents:
    optionals
    arrays
    sorting
+   random
    dictionaries
    functions
    closures
