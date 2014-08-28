@@ -34,7 +34,21 @@ We can get a range of values (closed at the high end)
     1 2 3 
     >
 
-The docs talk about a ``1..3`` construct with only two dots, which is a half-open range, but it doesn't work for me.
+The docs talk about a ``1..3`` construct with only two dots, which is a half-open range, but it doesn't work for me.  What I did find later on is ``1..<3`` which is probably a replacement that is more explicit and less likely to be confused with ``1...3`` triple dot syntax.
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    let s = "Tom,Sean,Joan"
+    let names = s.componentsSeparatedByString(",")
+    println(names[0..<2])
+
+.. sourcecode:: bash
+
+    > xcrun swift x.swift
+    [Tom, Sean]
+    >
 
 A while loop:
 
@@ -88,7 +102,7 @@ An odd way to do something ``n`` times.  Notice the``_`` variable (a way of sayi
     for _ in 1...power {
         result *= base
     }
-    // result == 32
+    // result == 1024
     
 This is legal!
 

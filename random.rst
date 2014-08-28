@@ -169,18 +169,105 @@ If you want to "shuffle", the correct algorithm is to move through the array and
 
     import Foundation
 
-    func shuffle(a: [Int]) {
-        let top = a.count-1
-        for i in 0...top {
-            let r = UInt32(top - i)
-            let d = Int(arc4random_uniform(r))
-            let j = i + d
-            let tmp = a[i]
-            a[i] = a[j]
-            a[j] = tmp
+    func shuffleIntArray(array: [Int]) {
+        var j: Int, a: Int, b: Int, tmp: Int
+        for i in 0...array.count-1 {
+            let r = UInt32(array.count - i)
+            j = i + Int(arc4random_uniform(r))
+            // j = min(i + 1, array.count-1)
+            tmp = array[i]
+            array[i] = array[j]
+            array[j] = tmp
         }
     }
 
-    shuffle(Array(1...100))
+    var a: [Int] = [1,2,3,4,5,6,7]
+    shuffleIntArray(a)
+    println("\(a)")
+    
+This should work, but I am getting the error:  ``error: '@lvalue $T5' is not identical to 'Int'    array[i] = array[j]``.  It is not letting me assign an Int to ``array[i]`` because the value ``array[i]`` is not an Int.  
 
-This should work, but I am getting the error:  ``error: '@lvalue $T5' is not identical to 'Int'    a[i] = a[j]``.  It is not letting me assign an Int to ``a[i]`` because the value ``a[i]`` is not an Int.  Weird.
+It happens even when the ``random`` code is replaced by the fake version ``j = min(i + 1, array.count-1)``.
+
+In simpler terms, this works:
+
+.. sourcecode:: bash
+
+    var a: [Int] = [1,2,3,4,5,6,7]
+    println("\(a)")
+    let tmp = a[0]
+    a[0] = a[2]
+    a[2] = tmp
+    println("\(a)")
+
+and this gives the error:
+
+.. sourcecode:: bash
+
+    func swapTwo(a: [Int], i: Int, j: Int) {
+        let v1 = a[i]
+        let v2 = a[j]
+        a[i] = v2
+        a[j] = v1
+    }
+
+It's weird but I believe it is due to a restriction on functions modifying arrays.
+
+I was able to get around it by constructing an entirely new array for each call to ``swap``:
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    func swapTwo(input: [Int], i: Int, j: Int) -> [Int] {
+        var a = input
+        let first = a[i]
+        let second = a[j]
+        a.removeAtIndex(i)
+        a.insert(second, atIndex:i)
+        a.removeAtIndex(j)
+        a.insert(first, atIndex:j)
+        return a
+    }
+
+But I think a  better solution is to wrap the data in a struct and then have a function that is marked as ``mutating``
+
+.. sourcecode:: bash
+
+    import Darwin
+
+    struct Ordering {
+        var a: [Int]
+        init() {
+            self.a = Array(1...100)
+        }
+        var repr: String {
+            get { return ("\(self.a[0...4])") }
+        }
+        mutating func shuffleArray() {
+            var i: Int, j: Int, t: Int
+            var a = self.a
+            for i in 0...a.count-1 {
+                let r = UInt32(a.count - i)
+                j = i + Int(arc4random_uniform(r))
+                t = a[i]
+                a[i] = a[j]
+                a[j] = t
+            }
+            self.a = a
+        }
+        mutating func sort() {
+            self.a.sort { $0 < $1 }
+        }
+    }
+    
+
+.. sourcecode:: bash
+
+    var o = Ordering()
+    println("\(o.repr)")
+    o.shuffleArray()
+    println("\(o.repr)")
+    o.sort()
+    println("\(o.repr)")
+    

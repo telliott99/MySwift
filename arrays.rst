@@ -8,21 +8,21 @@ The two basic collection types are arrays and dictionaries, which use syntax som
 
 .. sourcecode:: bash
 
-    let fruits = ["apples", "bananas", "cats"]
+    let fruits = ["cats", "apples", "bananas"]
     println(fruits[0])
     for f in fruits { print(f + " ") }
     println()
 
-Array access starts from ``0`` (indexing is 0-based):
-
 .. sourcecode:: bash
 
     > xcrun swift test.swift 
-    apples
-    apples bananas cats 
+    cats
+    cats apples bananas 
     >
 
-Notice the ``for f in fruits`` usage.  To check the number of items in an array, use ``count``.  If there are no items, then ``isEmpty()`` will return ``true``.
+Array access starts from ``0`` (indexing is 0-based).  Notice the simplicity of the ``for f in fruits`` usage.  
+
+To check the number of items in an array, use ``count``.  If there are no items, then ``isEmpty()`` will return ``true``.
 
 .. sourcecode:: bash
     
@@ -35,7 +35,7 @@ Notice the ``for f in fruits`` usage.  To check the number of items in an array,
 .. sourcecode:: bash
 
     var array = ["a","b","c","d","e","f"]
-    println(array)
+    println("\(array)")
     array[4] = "k"
     println(array)
     
@@ -50,25 +50,9 @@ Notice the ``for f in fruits`` usage.  To check the number of items in an array,
 Modifying an array
 ------------------
 
-One way is to use a subscript, as shown above.  Another way is this:
-
-.. sourcecode:: bash
-
-    var a = [4,5,6]
-    a.insert(10, atIndex:1)
-    // [4,10,5,6]
-
-If we're adding onto the end, use ``append`` for a single value or **use concatenation as the equivalent of Python's ``extend``**
-
-.. sourcecode:: bash
-
-    var a = [4,5,6]
-    a.append(10)
-    // [4,5,6,10]
-    a += [21,22,23]
-    // [4,5,6,10,21,22,23]
-
-To insert at a particular position, use ``insert(value, atIndex: index)``, like so:
+One way is to use subscript access, as shown above.
+ 
+Another way to insert at a particular position, is to use ``insert(value, atIndex: index)``, like so:
 
 .. sourcecode:: bash
 
@@ -78,6 +62,16 @@ To insert at a particular position, use ``insert(value, atIndex: index)``, like 
     \\ ["a","spam","b","c"]
     println(a.count)
     \\ 4
+
+If we're adding onto the end, use ``append`` for a single value or what is really nice, **use concatenation as the equivalent of Python's ``extend``**
+
+.. sourcecode:: bash
+
+    var a = [4,5,6]
+    a.append(10)
+    // [4,5,6,10]
+    a += [21,22,23]
+    // [4,5,6,10,21,22,23]
 
 One can also use Range (slice) notation with arrays.
 
@@ -108,12 +102,23 @@ As the docs say
 
     var a = ["a","b","c","d","e","f"]
     a[1...4] = ["x"]
-    // ["a","x","f"]
+    println("\(a)")
     var b = a
-    b[1] = ["j","k","l"]
-    // ["a","j","k","l","f"]
+    b[1] = "j"
+    println("\(a)")
+    println("\(b)")
     
-Arrays are value types, so ``a`` and ``b`` above have different values.
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    [a, x, f]
+    [a, x, f]
+    [a, j, f]
+    >
+    
+Arrays are value types, so ``a`` and ``b`` refer to different arrays, despite the assignment.
+
+    A value type is a type whose value is copied when it is assigned to a variable or constant
 
 Removing a value by index
 
@@ -142,7 +147,7 @@ Rather than ``pop`` use ``removeLast``:
     // a has the value [4,5]
     // b has the value 4
 
-One can specify the type of an array using two synonymous approaches:  ``[Int]`` or ``Array<Int>``.  Usually the first, shorthand, is preferred.  To instantiate, add the call operator ``()``:
+One can specify the type of an array using two synonymous approaches:  ``[Int]`` or ``Array<Int>``.  Usually the first, shorthand way is preferred.  To instantiate, add the call operator ``()``:
 
 .. sourcecode:: bash
 
@@ -172,7 +177,7 @@ This works as you'd expect
 
     var intArr = [Double](count: 3, repeatedValue: 2.5)
     
-Looping over the values can be done by ``for-in``:
+As we said at the beginning, looping over the values can be done by ``for-in``:
 
 .. sourcecode:: bash
 
@@ -181,7 +186,7 @@ Looping over the values can be done by ``for-in``:
     \\ 1
     \\ 2
 
-Swift has enumeration:
+Swift also has enumeration:
 
 .. sourcecode:: bash
 
@@ -198,7 +203,7 @@ Swift has enumeration:
     Item 3: cats
     >
 
-As a final example, a little functional programming:
+And as a final example, a little functional programming:
 
 .. sourcecode:: bash
 
@@ -207,9 +212,7 @@ As a final example, a little functional programming:
        let x = i % 2
        return x == 0
     }
-
-    let even = a.filter(isEven)
-    println(even)
+    println(a.filter(isEven))
     
 .. sourcecode:: bash
 

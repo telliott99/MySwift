@@ -4,24 +4,24 @@
 Optionals
 #########
 
-Swift has optional values (called "Optionals") that may be ``nil``, and not have a value, or they may have a value including a basic type like Int or String.  Consider the following:
+It's useful to have operations that may or may not succeed, and if it doesn't work, we just deal with it.  Swift has values called "Optionals" that may be ``nil``, or they may have a value including a basic type like Int or String.  Consider the following:
 
 .. sourcecode:: bash
 
-    let s: String = "123x"
+    var s: String = "123"
     let m: Int? = s.toInt()
-    let t: String = "123"
-    let n: Int? = t.toInt()
+    s += "x"
+    let n: Int? = s.toInt()
     println(m)
     println(n)
 
-The first conversion ``s.toInt()`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
+The second conversion ``s.toInt()`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
 
 .. sourcecode:: bash
 
     > xcrun swift test.swift 
-    nil
     Optional(123)
+    nil
     >
 
 The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of the following:

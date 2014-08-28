@@ -342,4 +342,4 @@ Here is another simple example that follows the instructions but fails currently
 
     var o = Obj()
     println("\(o)")
-// test.Obj
+    // test.Obj

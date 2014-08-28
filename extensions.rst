@@ -16,83 +16,87 @@ doesn't work.  We can fix that with the following code:
 .. sourcecode:: bash
 
     extension String {
-        subscript (r: Range<Int>) -> String {
-            get {
-                var begin = advance(self.startIndex, r.startIndex)
-                var end = advance(begin, r.endIndex)
-                return self[Range(start: begin, end: end)]
-            }
+        subscript(i: Int) -> Character {
+            let index = advance(startIndex, i)
+            return self[index]
+        }
+        subscript(r: Range<Int>) -> String {
+            let start = advance(startIndex, r.startIndex)
+            let end = advance(startIndex, r.endIndex)
+            return self[start..<end]
         }
     }
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
-    Hello
-    >
+    var s = "Hello, world"
+    println(s[4])
+    println(s[0...4])
+    
 
-What is going on here is that we are not supposed to just index into a String.  Instead, to deal gracefully with all the complexity of Unicode, we are supposed to let the compiler generate a valid range for us.
+What is going on here is that the language does not provide the facility to just index into a String.  Instead, being prepared to deal gracefully with all the complexity of Unicode means that we are supposed to let the compiler generate a valid range for us.
 
-Since ``r`` is a ``Range<Int>``, ``r.startIndex`` is just the first Int in the range.  However, the string indices are not Int values.  Hence, we ask for the ``s.startIndex`` and then advance it to where we want to be.  Then advance that to where we want to stop.
+Since ``r`` is a ``Range<Int>``, ``r.startIndex`` is just the first Int in the range.  However, the string indices are not Int values.  Hence, we ask for the ``self.startIndex`` and then advance it to where we want to be.  And after that we advance it to where we want to stop.
 
-Another extension which I've developed in the past (as a category on NSString) is ``lstrip`` and ``rstrip``.  Here is an extension that adds this capability to Swift.  Curiously, the index notation, which would've been helpful, is not available from within the extension definition, or even a second one coming right after.  So:
+Let's use the extension to develop a global function ``lstrip``
 
 .. sourcecode:: bash
 
     extension String {
-        func lstrip() -> String {
-            var s = self
-            while s.hasPrefix(" ") { 
-                s = s.substringFromIndex(
-                    advance(s.startIndex,1)) 
-            }
-            return s
+        subscript(i: Int) -> Character {
+            let index = advance(startIndex, i)
+            return self[index]
         }
-        
-        func reversed() -> String {
-            var c: Character
-            var s = ""
-            for c in reverse(self) {
-                s += c
-            }
-            return s
-        }
-    
-        func rstrip() -> String {
-            return self.reversed().lstrip().reversed()
+        subscript(r: Range<Int>) -> String {
+            let start = advance(startIndex, r.startIndex)
+            let end = advance(startIndex, r.endIndex)
+            return self[start..<end]
         }
 
-        func strip() -> String {
-            return self.lstrip().rstrip()
-        }
     }
 
-    var s = "Hello, world"
-    println("*" + "  Tom  ".lstrip() + "*")
-    println("*" + "  Tom  ".rstrip() + "*")
-    println("*" + "  Tom  ".strip() + "*")
+    func lstrip(str: String) -> String {
+        let space: Character = " "
+        var i = 0
+        for c in str {
+            if c == space { 
+                i += 1
+            }
+            else { break }
+        }
+        var j = 0
+        for c in str { j += 1 }
+        return str[i..<j]
+    }
+
+    func reversed(str: String) -> String {
+        var c: Character
+        var s = ""
+        for c in reverse(str) {
+            s += c
+        }
+        return s
+    }
+
+    func rstrip(str: String) -> String {
+        var s = reversed(str)
+        s = lstrip(s)
+        return reversed(s)
+    }
+
+    func strip(str: String) -> String {
+        return rstrip(lstrip(str))
+    }
+
+    var s = "  abc   "
+    println("*\(lstrip(s))*")
+    println("*\(rstrip(s))*")
+    println("*\(strip(s))*")
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
-    Hello
-    *Tom  *
-    *  Tom*
-    *Tom*
+    > xcrun swift test.swift 
+    *abc   *
+    *  abc*
+    *abc*
     >
-
-This last example doesn't work yet.
-
-.. sourcecode:: bash
-
-    func lstrip(s: String) -> String {
-        var i = s.startIndex
-        var j = s.endIndex
-        var r = Range<String.Index>(start: s.startIndex, end: s.endIndex)
-        while s.substringWithRange(r).startsWith(" ") {
-            advance(i,1)
-        }
-        return s.substringWithRange(i)
-    }
-
-    println(lstrip("*  Tom*"))

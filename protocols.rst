@@ -67,7 +67,41 @@ We first test whether ``prefix`` holds a value, and if so, we get rid of the Opt
 
 Some other common protocols defined already are Equatable, Comparable, Hashable, and Printable.  
 
-For more about those, see :ref:`Generics <generics>`::
+For more about all of these, see Generics.
+
+Here is a bit more about Printable:  an implementation that is done as an extension on ``Object``
+
+.. sourcecode:: bash
+
+    protocol Printable {
+        var description:  String { get }
+    }
+
+    class Object {
+        var n: String
+        init(name: String) {
+            self.n = name
+        }
+    }
+
+    extension Object: Printable {
+        var description: String { return n }
+    }
+
+    var o = Object(name: "Tom")
+    println("\(o.description)")
+    println("\(o)")
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    Tom
+    test.Object
+    >
+    
+I believe the second call should work (that's the point of this?), but it doesn't yet.
+
+As before, the protocol definition gives the property that must be present, specifies the type of what we'll get back and that a "getter" will do it.  That is, we will say ``o``.
 
 Sequence type is a protocol.  Here is a demo that I got off the web:
 

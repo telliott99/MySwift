@@ -13,6 +13,7 @@ Contents:
 
    intro
    strings
+   characters
    command_line
    loops
    optionals
@@ -27,6 +28,7 @@ Contents:
    files
    enum
    subscripts
+   operators
    generators
    protocols
    extensions
