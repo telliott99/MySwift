@@ -9,39 +9,9 @@ Welcome to MySwift's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   intro
-   strings
-   characters
-   command_line
-   loops
-   optionals
-   arrays
-   sorting
-   random
-   dictionaries
-   functions
-   closures
-   structs
-   classes
-   files
-   enum
-   subscripts
-   operators
-   generators
-   protocols
-   extensions
-   matrix
-   generics
-   stdlib
-   modules
-   quickref
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   part1/index
+   part2/index   
+   part3/index
+   part4/index

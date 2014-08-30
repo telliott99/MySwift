@@ -1,4 +1,4 @@
-.. _command_line:
+.. _command_line_args:
 
 ############
 Command line

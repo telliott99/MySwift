@@ -33,7 +33,7 @@ Unicode
 
 Swift is very modern when it comes to Unicode, even more so than NSString.
 
-In Unicode every character that can be written is represented as a "code point", a number.  Originally it was thought that 2e16 (more than one million) was enough to represent them all, or two bytes.  Now some are three bytes.  They have both decimal and binary equivalents, though binary is more usual.  From the docs:
+In Unicode every character that can be written is represented as a "code point", a number.  Originally it was thought that 2e16 (more than one million) was enough to represent them all, or two bytes.  Now some are three bytes.  A unicode code point comes in both decimal and binary equivalents, though binary is probably more usual.  From the docs:
 
     A Unicode scalar is any Unicode code point in the range U+0000 to U+D7FF inclusive or U+E000 to U+10FFFF inclusive. Unicode scalars do not include the Unicode surrogate pair code points in the range U+D800 to U+DFFF inclusive.
 
@@ -67,6 +67,23 @@ To keep things simple, I will copy this character and paste it into the Python i
     >>> s = "♥"
     >>> s
     '\xe2\x99\xa5'
+
+The default encoding here when we do the paste is UTF-8.  The hex value ``e2 99 a5`` is the UTF-8 encoded value of the code point known as "BLACK HEART SUIT".  To specify it in a Swift String, one way is to recall (or look up) its Unicode scalar value, which is typically written ``U+2665``.  Python again:
+
+    >>> s = "♥"
+    >>> s
+    '\xe2\x99\xa5'
+    >>> unicode(s,'utf-8')
+    u'\u2665'
+    >>> s.decode('utf-8')
+    u'\u2665'
+    >>>
+    
+One could also write the data to disk and use ``hexdump``
+
+.. sourcecode:: bash
+
+    >>> s = "♥"
     >>> FH = open('x.txt','w')
     >>> FH.write(s)
     >>> FH.close()
@@ -78,7 +95,7 @@ To keep things simple, I will copy this character and paste it into the Python i
     00000003
     >
 
-The default encoding here when we do the paste is UTF-8.  The hex value ``e2 99 a5`` is the UTF-8 encoded value of the code point known as "BLACK HEART SUIT".  To specify it in a Swift String, the easiest way is to recall (or look up) its Unicode scalar value, which is typically written ``U+2665``.  This is also hex, the decimal value is 9829.  Python again:
+The decimal equivalent is 9829.
 
 .. sourcecode:: bash
 
@@ -89,24 +106,30 @@ The default encoding here when we do the paste is UTF-8.  The hex value ``e2 99 
 
 The official name for this character is:  "Unicode Character 'BLACK HEART SUIT' (U+2665)".  In html you can write it either as ``&#9829`` or ``&#x2665``.
 
-Similarly, the "White smiling face"  ☺ is ``9786`` in Unicode, which in hexadecimal is ``263a``.
+Similarly, the "White smiling face"  ☺ is ``9786`` in Unicode, which in hexadecimal is ``U+263A``.
 
 In Python, if I have the character as Unicode I convert it to UTF-8 before writing to disk:
 
 .. sourcecode:: bash
 
-    >>> unichr(9786)
+    >>> u = unichr(9786)
+    >>> u
     u'\u263a'
-    >>> ord(u'\u263a')
+    >>> ord(u)
     9786
-    >>> print unichr(9786)
+    >>> print u
     ☺
-    >>> s = u'\u263a'.encode('utf-8')
+    >>> s = u.encode('utf-8')
     >>> s
     '\xe2\x98\xba'
     >>> FH = open('x.txt','w')
-    >>> FH.write(s)
+    >>> FH.write(s + "\n")
     >>> FH.close()
+    >>> 
+    [1]+  Stopped                 python
+    > cat x.txt
+    ☺
+    >
 
 In Swift, this is done as follows with ``.utf8``:
 
@@ -156,20 +179,20 @@ And now, the big question is, how many characters are there in ``blackHeart``?
 
 Three bytes in memory and on disk, but one character.
 
-Add this:
+Expand the example:
 
 .. sourcecode:: bash
 
     import Foundation
-    
-and this:
 
-.. sourcecode:: bash
+    let blackHeart = "\u{2665}"
+    print(blackHeart + " ")
+    println(countElements(blackHeart))
 
     var str = NSString.stringWithString(blackHeart)
     println(str.length)
     println(str.characterAtIndex(0))
-
+    
 NSString says:
 
 .. sourcecode:: bash
