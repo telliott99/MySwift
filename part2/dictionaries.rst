@@ -144,7 +144,7 @@ I don't see anything comparable to Python's ``dict(zip(key_list,value_list))`` i
         return D
     }
 
-println(dict_zip(L1,L2))
+    println(dict_zip(L1,L2))
 
 .. sourcecode:: bash
 

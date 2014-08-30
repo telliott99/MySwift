@@ -96,7 +96,7 @@ One more thing about structs.
 
     By default, the properties of a value type cannot be modified from within its instance methods.  
     
-    In the following code, in ``mutating func changeIt``, the ``mutating is required``, it declares to the compiler we are going to not do the default thing and allow this function to change properties of the struct.
+    In the following code, in ``mutating func changeIt``, the ``mutating`` is required, it declares to the compiler we are going to not do the default thing and allow this function to change properties of the struct.
 
 .. sourcecode:: bash
 

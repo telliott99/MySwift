@@ -13,6 +13,5 @@ Contents:
    matrix
    structs
    classes
-   files
    enum
    

@@ -23,7 +23,7 @@ File Operations
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift xcrun swift test.swift
+    > xcrun swift test.swift
     [1, 2, 3
     4
     ]
