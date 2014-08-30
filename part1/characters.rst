@@ -4,7 +4,7 @@
 Characters
 ##########
 
-A character is a type in Swift and may be represented as ``'a'`` for example, for the letter a.  But you don't initialize a character with a literal character.  Instead do this:
+A character is a type in Swift and may be represented as ``'a'`` for example, with single quotes, representing the single character a.  But you don't initialize a character with a literal character.  Instead do this:
 
 .. sourcecode:: bash
 
@@ -33,15 +33,17 @@ Unicode
 
 Swift is very modern when it comes to Unicode, even more so than NSString.
 
-In Unicode every character that can be written is represented as a "code point", a number.  Originally it was thought that 2e16 (more than one million) was enough to represent them all, or two bytes.  Now some are three bytes.  A unicode code point comes in both decimal and binary equivalents, though binary is probably more usual.  From the docs:
+In Unicode every character that can be written is represented as a "code point", a number.  Originally it was thought that 2e16, or two bytes (more than one million), was enough to represent them all.  
+
+Now some are three bytes.  A unicode code point comes in both decimal and binary equivalents, though binary is probably more usual.  From the docs:
 
     A Unicode scalar is any Unicode code point in the range U+0000 to U+D7FF inclusive or U+E000 to U+10FFFF inclusive. Unicode scalars do not include the Unicode surrogate pair code points in the range U+D800 to U+DFFF inclusive.
 
 The question then becomes, how to represent Unicode characters in memory and on in disk.  The apparent two byte limit argued for a two byte representation, but there are two different orders for the single bytes, leading to big- and little-endian UTF-16 encoding.
 
-And, perhaps since we managed pretty well with characters represented in a single byte (or even just 7 bits with ASCII), the UTF-8 encoding was developed.  It is a variable length encoding, taking two or three (or four) bytes when necessary, but usually taking only one.  It is much more compact, yet flexible.
+It may be because we managed pretty well with characters represented in a single byte (or even just 7 bits with ASCII), that the UTF-8 encoding was developed.  UTF-8 is a variable length encoding, usually taking only a single byte, but extending to two or three (or four) bytes when necessary.  It is much more compact, yet flexible.
 
-So really the first issue that comes up with Unicode, after realizing that the representation is critical, is how to count length correctly as characters rather than as bytes.
+So really the first issue that comes up with Unicode, after realizing that the representation is critical, is how to count length correctly as characters rather than as bytes when we have variable length, multibyte characters.
 
 The second issue is that the same character may be formed in different ways (admittedly, this is fairly rare), and we would like those two representations to compare as equal.
 
@@ -78,7 +80,9 @@ The default encoding here when we do the paste is UTF-8.  The hex value ``e2 99 
     >>> s.decode('utf-8')
     u'\u2665'
     >>>
-    
+
+In order to interpret these three bytes, one must know the encoding.
+
 One could also write the data to disk and use ``hexdump``
 
 .. sourcecode:: bash
@@ -147,7 +151,7 @@ In Swift, this is done as follows with ``.utf8``:
     226 152 186 
     >
     
-``226`` is equal to ``e2``, and so on.  Python again:
+``226`` is the decimal value equal to ``e2``, and so on.  Python again:
 
 .. sourcecode:: bash
 
@@ -177,7 +181,7 @@ And now, the big question is, how many characters are there in ``blackHeart``?
     ♥ 1
     >
 
-Three bytes in memory and on disk, but one character.
+Three bytes in memory and on disk, but one character according to ``countElements``.
 
 Expand the example:
 
@@ -228,7 +232,7 @@ Here is another example, from the docs, where the same character can be formed i
     true
     >
 
-Now *add* this:
+Now try the same thing with NSString:
 
 .. sourcecode:: bash
 

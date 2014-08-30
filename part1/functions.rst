@@ -96,7 +96,7 @@ They're not kidding!  The ``x`` at global scope is available inside ``sumOf``.  
     abcxyz
     >
 
-Return multiple values (from the Apple docs, with slight modification):
+Functions can return multiple values (from the Apple docs, with slight modification):
 
 .. sourcecode:: bash
 

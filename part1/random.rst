@@ -31,7 +31,7 @@ For *really* random numbers, it seems that ``arc4random`` is preferred, but it c
     println(m)
     // 4294948471
 
-The error message when you try to put the result of the call directly into an ``[Int]`` says that it is a ``UInt32``, an unsigned integer of 32 bits.
+The error message when you try to put the result of ``arc4random`` directly into an ``[Int]`` says that it is a ``UInt32``, an unsigned integer of 32 bits.
 
 We use a bit of trickery to obtain the familiar Python syntax:
 
@@ -43,7 +43,7 @@ We use a bit of trickery to obtain the familiar Python syntax:
     func ** (n: Double, p: Double) -> Double {
         return pow(n,p)
 
-The definition must be at global scope.  We compute
+The definition must be at global scope.  (For more about this see:  :ref:`operators`).  We compute
 
 .. sourcecode:: bash
 
@@ -230,7 +230,7 @@ I was able to get around it by constructing an entirely new array for each call 
         return a
     }
 
-But I think a  better solution is to wrap the data in a struct and then have a function that is marked as ``mutating``
+But a much better solution is to wrap the data in a struct and then have a function that is marked as ``mutating``
 
 .. sourcecode:: bash
 
@@ -270,4 +270,13 @@ But I think a  better solution is to wrap the data in a struct and then have a f
     println("\(o.repr)")
     o.sort()
     println("\(o.repr)")
-    
+
+This works:
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    [1, 2, 3, 4, 5]
+    [54, 60, 34, 99, 80]
+    [1, 2, 3, 4, 5]
+    >

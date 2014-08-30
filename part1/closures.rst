@@ -195,7 +195,7 @@ In fact, the docs say that the closure's argument types can always be inferred f
 
 If the entire closure is a single expression, the return can also be omitted.
 
-    .. sourcecode:: bash
+.. sourcecode:: bash
 
     let reversed = sorted(a,{ s1, s2 in s1 > s2}
 

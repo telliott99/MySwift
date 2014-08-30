@@ -24,7 +24,7 @@ Also, this helped me to finally figure out some things that confused me.  Withou
     [Tom, Sean, Joan]
     >
 
-Not only is the ``NSString`` method called, but the type that is returned is a Swift [Int] rather than an Objective C NSArray.
+Not only is the ``NSString`` method called, but the type that is returned is a Swift [String] rather than an Objective C NSArray of NSString objects.
 
 Another useful thing is that one can go back and forth between String and NSString pretty easily:
 
@@ -58,13 +58,16 @@ The location is 5 and the length is 4.
 Basic methods:
 
     - init(count sz: Int, repeatedValue c: Character)
-    - isEmpty: Bool { get }
-    - hasPrefix(s) -> Bool
-    - hasSuffix(s) -> Bool
-    - toInt -> Int?
+    - ``isEmpty: Bool { get }``
+    - ``hasPrefix(s) -> Bool``
+    - ``hasSuffix(s) -> Bool``
+    - ``toInt -> Int?``
+    - ``isEqual(s) -> Bool``
+    
+To check identity, use the operator ``===``.  (And we'll have more to say about the ``Int?`` type, see :ref:`optionals`)
 
 Operators 
-+
-+= 
-==
-<
+    - ``+``
+    - ``+=``
+    - ``==``
+    - ``<``

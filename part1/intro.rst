@@ -41,6 +41,8 @@ As shown above, a basic print statement is ``println("a string")`` or ``print("a
 
 One can also do variable substitution, like this
 
+``Hello.swift``:
+
 .. sourcecode:: bash
 
     var s = "Hello"
@@ -52,9 +54,9 @@ One can also do variable substitution, like this
     Hello
     >
 
-Variables are typed (with the type coming after the variable name) and there is no implicit conversion between types (except when doing ``print``).  
+Variables are typed (with the type coming after the variable name) and there is no implicit conversion between types (except when doing ``print(anInt)`` or ``print(anArray)``).  
 
-We're going to switch filenames now to ``test.swift``
+We're going to switch filenames now to
 
 ``test.swift``:
 
@@ -72,9 +74,11 @@ This works, and prints what you'd expect.  If a value is not going to change (a 
     let s = "Hello"
     println("\(s)")
 
-which also works, and prints what you'd expect.  The reason it works is that the compiler can (almost always) infer type information from the context.
+which also works, and prints what you'd expect.  
 
-The usual style would be:
+The reason it works (without the ``:String`` type declaration is that the compiler can almost always infer type information from the context.
+
+The usual Swift style would be:
 
 .. sourcecode:: bash
 

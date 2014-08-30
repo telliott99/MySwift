@@ -42,7 +42,8 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     really
     >
     
-    
+Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, which is fine, once we know for sure that it is not ``nil``.
+
 .. sourcecode:: bash
     
     import Foundation
@@ -71,8 +72,6 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     8: 70
     10: 70
     >
-
-Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, which is fine, once we know for sure that it is not ``nil``.
 
 Another idiom in Swift is "optional binding"
 
