@@ -45,7 +45,7 @@ The docs have an example of a two-dimensional array or matrix of double values. 
     3 0
 
 I'm going to strip out the error checking since I never make mistakes.  :)
-And then I want to a more flexible way of printing the matrix.  To build each line of the output, I want to convert a slice, obtained by calling ``grid[range]``, to a String.  I found this:
+And then I want a more flexible way of printing the matrix.  To build each line of the output, I want to convert a slice, obtained by calling ``grid[range]``, to a String.  I found this:
 
 http://vperi.com/2014/06/04/flatten-an-array-to-a-string-swift-extension/
 
@@ -74,7 +74,7 @@ http://vperi.com/2014/06/04/flatten-an-array-to-a-string-swift-extension/
     1*2*3
     >
 
-This extension builds the string by repeated concatenation.  Probably the library method ``join(sep,array)`` would be better, except it takes an array of String values.  So we'll go with it for the time being.
+This extension builds the string by repeated concatenation.  Probably the library method ``join(sep,array)`` would be better, except it takes an array of String values.  So we'll go with this for the time being.
 
 Now, we take the modified class (no error checking), and add to it a method ``repr`` and a couple other tricks:
 
@@ -170,5 +170,3 @@ Now, we take the modified class (no error checking), and add to it a method ``re
     >
     
 I added a String extension that does ``rjust``, and changed the Slice extension to be on Array instead, and convert to an Array before calling ``combine``.  There is a constructor that takes input data for the matrix, as well as the dimensions.
-    
-It still has an extra newline I have to get rid of.

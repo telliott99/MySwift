@@ -6,7 +6,11 @@ Imports
 
 I got curious about importing modules in Swift.
 
-I can do it easily in Xcode.  Make a new project for a command line tool (or whatever).  Do File > New > File and get a new Swift file in the project named whatever you like.  In that file put this code:
+I can do it easily in Xcode.  Make a new project for a command line tool (or whatever).  
+
+Do File > New > File and get a new Swift file in the project named whatever you like.  (Alternatively, drag an existing file into the project).
+
+The file should have this code:
 
 .. sourcecode:: bash
 

@@ -9,25 +9,58 @@ Here is a simple dictionary
 .. sourcecode:: bash
 
     var D = ["a":"apple","b":"banana","c":"cookie"]
-    for (key,values) in D {
-        println("\(key) is for \(value)")
+    for (k,v) in D {
+        println("key: \(k) is for value: \(v)")
     }
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
-    b is for banana
-    c is for cookie
-    a is for apple
+    > xcrun swift test.swift
+    key: b is for value: banana
+    key: c is for value: cookie
+    key: a is for value: apple
     >
 
-We can ask for 
+The construct ``for (tuple) in dictionary`` loops over tuples of (key, value) pairs.
 
-    - ``Array(D.keys)``
-    - ``Array(D.values)`` (returns tuples with key/value pair)
-    - ``D.count`` (an Int value)
-    
-The docs say that you can also get just the ValueTypes from "values".
+We can also ask for 
+
+    - ``D.keys`` 
+    - ``D.values``
+    - ``D.count``
+
+.. sourcecode:: bash
+
+    var D = ["a":"apple","b":"banana","c":"cookie"]
+    println(Array(D.keys))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    [b, c, a]
+    >
+
+.. sourcecode:: bash
+
+    var D = ["a":"apple","b":"banana","c":"cookie"]
+    println(Array(D.values))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    [banana, cookie, apple]
+    >
+
+
+Without the ``Array()``, you get
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    Swift.LazyBidirectionalCollection
+    >
+
+Here is the example from the docs:
 
 .. sourcecode:: bash
 
@@ -65,7 +98,9 @@ and when run it prints ``1``, as you'd expect.  What is going on is that the ``D
 
 In the first line ``var D = Dictionary<String,Int>()``, we are getting an instance of dictionary, so we need the call operator ``( )``, which will call the ``init()`` method of the class.
 
-Also in the code above we did ``D1["apple"]!``.  In general, dictionary operations return a value if the key is present, and otherwise ``nil``.  So the value of return type is a ``ValueType?``, which you must force to ``ValueType`` by saying ``ValueType!`` if you're sure it's not ``nil``.  Of course, you should test for ``nil``, so we should really do:
+An important point to remember about dictionaries is that a call to retrieve the value for a key may fail.  In general, dictionary operations return a value if the key is present, and otherwise ``nil``.  So the type defined to be returned is an "Optional".
+
+In the code above we did ``D1["apple"]!``.  The value of return type is a ``ValueType?``, which you must force to ``ValueType`` by saying ``ValueType!`` if you're sure it's not ``nil``.  Of course, you should test for ``nil``, so we should really do:
 
 .. sourcecode:: bash
 
@@ -74,7 +109,7 @@ Also in the code above we did ``D1["apple"]!``.  In general, dictionary operatio
         println(value!)
     }
 
-``updateValue`` returns the old value if present, otherwise it returns ``nil``
+The dictionary method ``updateValue`` returns the old value if present, otherwise it returns ``nil``
 
 .. sourcecode:: bash
 
@@ -96,38 +131,26 @@ Also in the code above we did ``D1["apple"]!``.  In general, dictionary operatio
     [cookie: 100, apple: 0, banana: 2]
     >
 
-As usual for a dictionary, the keys are not sorted.  
-
-As we said, unlike Python, the ``for`` construct on a dictionary returns a tuple of (key,value) pairs, rather than just keys.
+As usual for a dictionary, the keys are in a particular method based on their hash values, but appear to be unsorted.
 
 .. sourcecode:: bash
 
-    var D = ["apple":1, "banana":2]
-    for k in D.keys {
-        println("key: \(k), value: \(D[k])")
-    }
+    var D = ["a":"apple","b":"banana","c":"cookie"]
+    for k in sorted(D.keys) { println("\(k): \(D[k]!) ") }
 
 .. sourcecode:: bash
 
     > xcrun swift test.swift
-    key: apple, value: Optional(1)
-    key: banana, value: Optional(2)
+    a: apple 
+    b: banana 
+    c: cookie 
     >
 
-What's going on here is that the docs say:
+--------------------
+dict(zip(a,b)) idiom
+--------------------
 
-    subscript(KeyType) -> ValueType? { get set }
-
-which means that we can access values for keys with subscript notation, but what is returned is an Optional type (may be ``nil``).  A slight modification:  ``value: \(D[k]!)`` yields
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    key: apple, value: 1
-    key: banana, value: 2
-    >
-
-I don't see anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So we'll roll our own:
+I didn't see anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So we'll roll our own:
 
 .. sourcecode:: bash
 
