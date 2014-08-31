@@ -5,10 +5,10 @@ Standard Library
 ################
 
 http://practicalswift.com/2014/06/14/the-swift-standard-library-list-of-built-in-functions/
-   
-``dropFirst``, ``dropLast``
 
-``dump``
+    - ``dropFirst``
+    - ``dropLast``
+    - ``dump``
 
 .. sourcecode:: bash
 
