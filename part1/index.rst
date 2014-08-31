@@ -14,5 +14,6 @@ Contents:
    loops
    optionals
    random
+   bits
    functions
    closures
