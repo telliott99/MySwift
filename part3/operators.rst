@@ -4,7 +4,7 @@
 Operators
 #########
 
-I believe I put this in the section on random numbers, but this is pretty cool so I'll repeat it here:
+I believe I put this in the section on random numbers, but it is pretty cool so I'll repeat it here:
 
 .. sourcecode:: bash
 
@@ -18,7 +18,7 @@ I believe I put this in the section on random numbers, but this is pretty cool s
 
 This prints what you'd expect (except that the type of the result is Double).
 
-What is even better is that we can define new operators, and those can be any symbol we want, an obvious one:
+What is even better is that we can define new operators, and those can be any symbol we want, here is an obvious one:
 
 .. sourcecode:: bash
 
