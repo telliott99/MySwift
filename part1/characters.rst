@@ -22,8 +22,35 @@ To put a character back into a String, you can do this:
 
     var s = ""
     let c: Character = "a"
-    s += c
+    s.append(c)
     println(s)  // a
+    
+As of recently, the ``+=`` operator is only for "concatenate", so this doesn't work any more:
+
+.. sourcecode:: bash
+
+    let c: Character = "a"
+    s += c
+    
+     String and Character have been revised to follow the changes to Array, which clarifies that the + operator is only for "concatenation", not "append”. Therefore String + Character, Character + String, and String += Character, as well as the analogous Array + Element combinations, have been removed.
+     
+A concatenation example:
+
+.. sourcecode:: bash
+
+    let c1: Character = "a"
+    let c2: Character = "b"
+    let a = [c1,c2]
+    let s = "" + a
+    println(a)
+    println(s)
+    
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    [a, b]
+    ab
+    >
     
 Again, the type of ``c`` is Character.
 

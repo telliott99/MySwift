@@ -46,6 +46,24 @@ To check the number of items in an array, use ``count``.  If there are no items,
     [a, b, c, d, k, f]
     >
 
+Arrays have properties ``first`` and ``last``
+
+.. sourcecode:: bash
+
+    var a = Array(1..<10)
+    println("\(a.first!), \(a.last!)")
+    a = [1,2,3,4]
+    println("\(a.first), \(a.last)")
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    1, 9
+    Optional(1), Optional(4)
+    >
+
+These are Optionals, even with an array formed like ``[1,2,3,4]``, so to get the value, use ``!`` as in the first part.  For more details, see :ref:`optionals`.
+
 ------------------
 Modifying an array
 ------------------
