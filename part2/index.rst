@@ -14,4 +14,5 @@ Contents:
    structs
    classes
    enum
+   closures
    

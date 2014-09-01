@@ -16,4 +16,3 @@ Contents:
    random
    bits
    functions
-   closures

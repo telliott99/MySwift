@@ -115,7 +115,7 @@ One more thing about structs.
 
 Here it is in an Xcode "playground"
 
-.. image:: /figures/struct_pg.png
+.. image:: struct_pg.png
     :scale: 75 %
 
 

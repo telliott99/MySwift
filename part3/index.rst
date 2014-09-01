@@ -7,7 +7,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
-   files
+   closures2
    subscripts
    operators
    generators
