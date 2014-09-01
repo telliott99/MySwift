@@ -240,18 +240,6 @@ And now we need to replace the ``###`` with a block/closure that takes an NSInte
 
 .. sourcecode:: bash
 
-    panel.beginSheetModalForWindow(window, handler:(NSInteger) in { 
-        if (result == NSFileHandlingPanelOKButton) {
-            let theFile = panel.URL
-            println(theFile)
-    })
-
-The above doesn't actually work.  But what I got off the web does
-
-http://meandmark.com/blog/
-
-.. sourcecode:: bash
-
     import Cocoa
     var op = NSOpenPanel()
 
@@ -269,20 +257,31 @@ http://meandmark.com/blog/
     let d = home.stringByAppendingString("/Desktop/")
     op.directoryURL = NSURL(string: d)
 
-    op.beginWithCompletionHandler { (result: Int) -> Void in
+    op.beginWithCompletionHandler( { (result: NSInteger) -> Void in 
         if (result == NSFileHandlingPanelOKButton) {
-            let f = op.URL
-            println(f)
+            let theFile = op.URL
+            println(theFile)
         }
-    }
+    })
 
-The above is another example of a "trailing" closure. The method has no ``()`` call operator.
+It works!
 
-You can wrap everything from ``{ result: Int .. println(f) }}`` in parentheses like a regular method call, and that'll still work, but you can't say ``handler:`` like I had above.  I get:
+Another example uses a "trailing" closure:
+
+http://meandmark.com/blog/
 
 .. sourcecode:: bash
 
-    extraneous argument label 'handler:'
+    op.beginWithCompletionHandler { (result: NSInteger) -> Void in 
+        if (result == NSFileHandlingPanelOKButton) {
+            let theFile = op.URL
+            println(theFile)
+        }
+    }
+
+The method has no ``()`` call operator.
+
+You can wrap everything from ``{ result: Int .. println(f) }}`` in parentheses like a regular method call, and that'll still work.
 
 Also, since the types of the arguments can be figured out, it should be possible to lose the type information and just have:
 
@@ -315,7 +314,7 @@ I also thought I should be able to do:
 
 but it doesn't work.
 
-What does work is to separate the handler code from its invocation:
+However, what does work is to separate the handler code from its invocation:
 
 .. sourcecode:: bash
 
