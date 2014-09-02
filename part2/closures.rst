@@ -100,7 +100,7 @@ The rules allow you to omit things if they're obvious.  In the above example, we
         return result
         })
     
-You can omit the return type because it is also obvious (but you must omit the ``->Int``, the variable ``result`` and the ``return`` statement).
+You can omit the return type because it is also obvious (but you must omit the ``-> Int``, the variable ``result`` and the ``return`` statement).
 
 .. sourcecode:: bash
     
@@ -108,3 +108,14 @@ You can omit the return type because it is also obvious (but you must omit the `
     let result = a.map({
         number in 3 * number
         })
+
+Similarly, for the other example this works:
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c"]
+    let result = a.map({ s in s + "*" })
+    println(result)
+        
+        
+        
