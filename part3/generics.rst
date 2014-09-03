@@ -4,7 +4,9 @@
 Generics
 ########
 
-Amazingly enough, one can even write a function that deliberately modifies a parameter that is a primitive type.  We convert call-by-value into call-by-reference!  There is no return value and the parameters are marked with the label ``inout``:
+As we saw in :ref:`functions`, one can even write a function that deliberately modifies a parameter which is a primitive type.
+
+We convert call-by-value into call-by-reference!  The parameters are marked with the label ``inout`` and there is no return value:
 
 .. sourcecode:: bash
 
@@ -26,7 +28,7 @@ Amazingly enough, one can even write a function that deliberately modifies a par
     -1 1
     >
 
-Notice the use of ``&x`` and ``&y``, borrowed from C and C++.
+Notice the use of ``&x`` and ``&y``, with a meaning at least analogous to that in C and C++.
 
 We can replace the above by a generic version
 
@@ -50,7 +52,7 @@ We can replace the above by a generic version
     x = 2, y = 1
     >
 
-An alternative approach is to use multiple return values in a tuple:
+An alternative approach is to just use multiple return values in a tuple:
 
 .. sourcecode:: bash
 
@@ -64,7 +66,7 @@ An alternative approach is to use multiple return values in a tuple:
     (x,y) = swapTwo(x,y)
     println("x = \(x), y = \(y)")
 
-We declare the return type as (T,T).
+We declare the return type as `(T,T)`.
 
 .. sourcecode:: bash
 
@@ -173,7 +175,6 @@ I don't have a good use case yet, but you can have more than one generic type:
     The value of s is 1.33 and t is 17
     >
 
-
 And you can name them anything you like (although caps are standard)
 
 .. sourcecode:: bash
@@ -183,7 +184,6 @@ And you can name them anything you like (although caps are standard)
         println("The value of s is \(s) and t is \(t)")
     }
     pp(1.33, 17)
-
 
 This next example deals with both generics and protocols.  The efficient collection to use when you want to check whether a value is present is a dictionary.  Since String and Int types can be KeyValue types for a dictionary, this works great:
 
@@ -207,7 +207,7 @@ This next example deals with both generics and protocols.  The efficient collect
     println(singles(["a","b","a"]))
     println(singles([0,0,0,0,0]))
 
-What this says is that we'll take an array of type T and then return an array of type T.  For each value in the input, we check if we've seen it (by checking if it's in the dictionary).  The subscript operator is defined, and it returns an optional.  So we use the ``if let value = D[key]`` construct, which is nil if the key is not in the dictionary.
+What this says is that we'll take an array of type T and then return an array of type T.  For each value in the input, we check if we've seen it (by checking if it's in the dictionary).  The subscript operator is defined, and it returns an optional.  So we use the ``if let value = D[key]`` construct, which returns ``nil`` if the key is not in the dictionary.
 
 The ``Hashable`` protocol requires that the array contain objects that are "hashable", i.e. either the compiler (or we) have to be able to compute from it an integer value that is (almost always) unique.  The compiler does this for primitive types on its own.
 
@@ -220,7 +220,9 @@ Looks like it works:
     [0]
     > 
 
-In order to use this for a user-defined object, that object must follow the Hashable protocol.  However, let's start by looking at Comparable and Equatable.  For this, an object must respond to the operators ``==`` and ``<``.  These functions must be defined *at global scope*.
+In order to use this for a user-defined object, that object must follow the Hashable protocol.  
+
+However before dealing with Hashable, let's start by looking at Comparable and Equatable.  For Comparable, an object must respond to the operators ``==`` and ``<``.  These functions must be defined *at global scope*.
 
 We obtain a unique id for each object from the current time (slightly different since they are initialized sequentially):
 
@@ -324,7 +326,7 @@ This *almost* works.  For some reason, it isn't printing the representation corr
     [test.Obj]
     >
 
-Here is another simple example that follows the instructions but fails currently (Xcode is beta at the moment I write this)
+Here is another simple example that follows the instructions but fails currently.  Of course, Xcode is beta at the moment I write this, so it might not be me  :)
 
 .. sourcecode:: bash
 

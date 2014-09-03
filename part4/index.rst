@@ -9,6 +9,7 @@ Contents:
    
    files
    panels
+   drawing
    translation
    modules
    stdlib

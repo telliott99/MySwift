@@ -10,6 +10,7 @@ Contents:
    intro
    strings
    characters
+   range
    command_line_args
    loops
    optionals
