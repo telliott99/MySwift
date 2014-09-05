@@ -62,6 +62,13 @@ Arrays have properties ``first`` and ``last``
     Optional(1), Optional(4)
     >
 
+They can also test whether a value is included:
+
+.. sourcecode:: bash
+
+    contains([1,2,3], 3)
+    // true
+
 These are Optionals, even with an array formed like ``[1,2,3,4]``, so to get the value, use ``!`` as in the first part.  For more details, see :ref:`optionals`.
 
 ------------------
@@ -221,7 +228,7 @@ Swift also has enumeration:
     Item 3: cats
     >
 
-And as a final example, a little functional programming:
+A little functional programming:
 
 .. sourcecode:: bash
 
@@ -237,4 +244,19 @@ And as a final example, a little functional programming:
     > xcrun swift test.swift
     [2, 4, 6, 8, 10]
     >
-    
+
+------------------
+List comprehension
+------------------
+
+List comprehension is not built-in, but the functional programming constructs make it fairly easy.  Here is an example with ``filter`` and a trailing closure.
+
+http://stackoverflow.com/questions/24003584/list-comprehension-in-swift
+
+.. sourcecode:: bash
+
+    let evens = filter(1..<10) { $0 % 2 == 0 }
+    println(evens)
+    // [2, 4, 6, 8]
+
+

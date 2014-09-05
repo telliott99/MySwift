@@ -459,5 +459,5 @@ Stick this into the AppDelegate and call it from ``applicationDidFinishLaunching
 It works, printing ``file:///Users/telliott_admin/Desktop/x.txt``
 
 
-.. image:: open_panel2.png
+.. image:: /figures/open_panel2.png
    :scale: 75 %

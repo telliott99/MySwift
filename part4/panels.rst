@@ -57,5 +57,5 @@ NSOpenPanel:
     *
     >
     
-.. image:: open_panel.png
+.. image:: /figures/open_panel.png
    :scale: 100 %

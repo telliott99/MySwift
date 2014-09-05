@@ -14,4 +14,5 @@ Contents:
    protocols
    extensions
    generics
+   drawing
    

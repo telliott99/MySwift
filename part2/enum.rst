@@ -76,3 +76,28 @@ Here is an example based on the fact that bar-codes can be an array of 4 integer
     > xcrun swift test.swift 
     QR code: ABCDEFGHIJKLMNOP.
     >
+
+Here are some other enum definitions from the docs that I haven't really made into full examples yet:
+
+.. sourcecode:: objective-c
+
+    enum ASCIIControlCharacter: Character {
+        case Tab = "\t"
+        Case LineFeed = "\n"
+        Case CarriageReturn = "\r"
+    }
+
+    enum Planet: Int {
+        case Mercury = 1, Venus, Earth, Mars, 
+                          Jupiter, Saturn, Uranus, Neptune 
+    }
+
+And one of mine.
+
+.. sourcecode:: objective-c
+
+    enum Vector {
+        case _3D(Int, Int, Int)
+        case _2D(Int, Int)
+        case _1D(Int)
+    }

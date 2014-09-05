@@ -18,8 +18,8 @@ It's not really the best code, but it generates an image.
 
 Here is the resulting figure:
 
-.. image:: x.png
-   :scale: 100 %
+.. image:: /figures/x.png
+   :scale: 75 %
 
 .. sourcecode:: bash
 
