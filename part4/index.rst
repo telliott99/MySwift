@@ -15,5 +15,7 @@ Contents:
    swift_app
    swift_tableview
    swift_file
+   swift_NSCoding
+   swift_view
    
    
