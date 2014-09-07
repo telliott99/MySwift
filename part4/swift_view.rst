@@ -10,8 +10,7 @@ Set up a new project in Xcode in the usual way, with Swift code.  Add a Cocoa cl
 
 For the code use this:
 
-.. sourcecode:: bash
-
+.. sourcecode:: objective-c
 
     import Cocoa
 
@@ -47,3 +46,31 @@ Here is a screenshot after I've clicked on the window a few times:
 
 .. image:: /figures/binary_view.png
     :scale: 75 %
+    
+Here is another test that works:
+
+.. sourcecode:: objective-c
+
+    import Cocoa
+
+    class MyView: NSView {
+        var a :[Int] = [1,2,3]
+    
+        override func drawRect(dirtyRect: NSRect) {
+            super.drawRect(dirtyRect)
+            if a[1] % 2 == 0 {
+                NSColor.purpleColor().set()
+            }
+            else {
+                NSColor.yellowColor().set()
+            }
+            NSRectFill(self.bounds)
+        }
+    
+        override func mouseDown(theEvent: NSEvent) {
+            a[1] += 1
+            println(a[1])
+            self.display()
+        }
+    }
+
