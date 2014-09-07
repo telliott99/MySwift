@@ -4,6 +4,8 @@
 Advanced Swift
 ##############
 
+.. _closures:
+
 ****************
 More on Closures
 ****************
@@ -547,6 +549,8 @@ This is a little tricky because the two subscripts are overloaded on the return 
     69
     70
     >
+
+.. _operators:
 
 *********
 Operators

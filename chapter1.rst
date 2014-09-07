@@ -4,6 +4,9 @@
 Basic syntax
 ############
 
+
+.. _compiling_swift:
+
 ***************
 Compiling Swift
 ***************
@@ -91,6 +94,8 @@ The usual Swift style would be:
     println(f)
     // prints:  12300
 
+.. _strings:
+
 *******
 Strings
 *******
@@ -162,6 +167,8 @@ Operators
     - ``+=``
     - ``==``
     - ``<``
+
+.. _characters:
 
 **********
 Characters
@@ -445,6 +452,8 @@ Now try the same thing with NSString:
 
 So, the problem (solved by Swift and not by NSString) is how to deal with "extended grapheme clusters".  Such a cluster is a single character composed of multiple graphemes, such as ``"\u{65}\u{301}"``.
 
+.. _range:
+
 ******************
 Range and Interval
 ******************
@@ -559,6 +568,8 @@ And finally:
     }
     // also OK
 
+.. _command_line:
+
 ************
 Command line
 ************
@@ -582,6 +593,8 @@ To obtain arguments passed in on the command line, just do this:
     > xcrun swift test.swift a b c 1
     [test.swift, a, b, c, 1]
     >
+
+.. _stdin:
 
 ***************
 Read from StdIn
@@ -645,6 +658,8 @@ When examined with ``hexdump`` we see that in addition to the newline (``\x0a``)
     >
 
 Looks like it's working fine.
+
+.. _loops:
 
 *****
 Loops
@@ -771,7 +786,7 @@ This is legal!
 Optionals
 *********
 
-It's useful to have operations that may or may not succeed, and if it doesn't work, we just deal with it.  Swift has values called "Optionals" that may be ``nil``, or they may have a value including a basic type like Int or String.  Consider the following:
+It's useful to have operations that may or may not succeed, and if it doesn't work, just deal with it.  Swift has values called "Optionals" that may be ``nil``, or they may have a value including a basic type like Int or String.  Consider the following:
 
 .. sourcecode:: bash
 
@@ -853,6 +868,8 @@ Another idiom in Swift is "optional binding"
 
 Normally one has to use a Boolean for an if construct, but here we're allowed to use an optional, if it evaluates to ``nil`` we do the ``else``, otherwise ``n`` has an Int value and we can use it.
 
+.. _random:
+
 **************
 Random numbers
 **************
@@ -896,7 +913,7 @@ We use a bit of trickery to obtain the familiar Python syntax:
     func ** (n: Double, p: Double) -> Double {
         return pow(n,p)
 
-The definition must be at global scope.  (For more about this see:  :ref:`operators`).  We compute
+The definition must be at global scope.  (For more about this see  :ref:`operators`).  We compute
 
 .. sourcecode:: bash
 
@@ -1134,6 +1151,8 @@ This works:
     [1, 2, 3, 4, 5]
     >
 
+.. _binary_numbers:
+
 **************
 Binary Numbers
 **************
@@ -1246,6 +1265,8 @@ Having exclusive or immediately suggests encryption.  Here is a silly example:
 See discussion here:
 
 http://stackoverflow.com/questions/24465475/how-can-i-create-a-string-from-utf8-in-swift
+
+.. _functions:
 
 *********
 Functions

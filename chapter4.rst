@@ -4,6 +4,8 @@
 Swift and Xcode
 ###############
 
+.. _files:
+
 ***************
 File Operations
 ***************
