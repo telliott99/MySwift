@@ -259,4 +259,91 @@ http://stackoverflow.com/questions/24003584/list-comprehension-in-swift
     println(evens)
     // [2, 4, 6, 8]
 
+------------
+Modification
+------------
 
+If you pass an array to a function with the intention of modifying it, declare the array parameter as ``inout`` and pass ``&a`` to the function, like this:
+
+.. sourcecode:: bash
+
+    func pp (s: String, a: [Int]) {
+        print (s + " ")
+        for n in a { print("\(n) ") }
+        println()
+    }
+
+    func swap(inout a: [Int], i: Int, j: Int) {
+        let tmp = a[i]
+        a[i] = a[j]
+        a[j] = tmp
+    }
+
+    func selection_sort(inout a: [Int]) {
+        for i in 0...a.count - 2 {
+            for j in i...a.count - 1 {
+                if a[j] < a[i] {
+                    swap(&a,i,j)
+                }
+            }
+        }
+    }
+
+    func insertion_sort(inout a: [Int]) {
+        for i in 1...a.count-1 {
+            // a[0...i] are guaranteed to be sorted
+            var tmp = Array(a[0...i])
+
+            // go up to penultimate value
+            let v = tmp.last!
+            for j in 0...tmp.count - 2 {
+                if tmp[j] > v {
+                    tmp.insert(v, atIndex:j)
+                    tmp.removeLast()
+                    break
+                }
+            }
+            a[0...i] = tmp[0...tmp.count-1]
+        }
+    }
+
+    var a = [32,7,100,29,55,3,19,82,23]
+    pp("a: ", a)
+
+    let b = sorted(a, { $0 < $1 })
+    pp("b: ", b)
+
+    var c = a
+    pp("c: ", c)
+    selection_sort(&c)
+    pp("c: ", c)
+
+    var d = a
+    pp("d: ", d)
+    insertion_sort(&d)
+    pp("d: ", d)
+    
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    a:  32 7 100 29 55 3 19 82 23 
+    b:  3 7 19 23 29 32 55 82 100 
+    c:  32 7 100 29 55 3 19 82 23 
+    c:  3 7 19 23 29 32 55 82 100 
+    d:  32 7 100 29 55 3 19 82 23 
+    d:  3 7 19 23 29 32 55 82 100 
+    >
+
+If you forget to do this you'll get a funny error:
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    test.swift:8:5: error: '@lvalue $T8' is not identical to 'Int'
+        a[i] = a[j]
+        ^
+    test.swift:9:5: error: '@lvalue $T5' is not identical to 'Int'
+        a[j] = tmp
+        ^
+    >

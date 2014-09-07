@@ -12,6 +12,7 @@ Contents:
    characters
    range
    command_line_args
+   stdin
    loops
    optionals
    random
