@@ -1,1199 +1,866 @@
 .. _chapter2:
 
 ###########
-Collections
+More Basics
 ###########
 
-******
-Arrays
-******
 
-The two basic collection types are arrays and dictionaries, which use syntax something like in Python:
+.. _command_line:
 
-.. sourcecode:: bash
+************
+Command line
+************
 
-    let fruits = ["cats", "apples", "bananas"]
-    println(fruits[0])
-    for f in fruits { print(f + " ") }
-    println()
+As we said at the beginning, from the command line we can compile and run a swift program with
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
-    cats
-    cats apples bananas 
+    xcrun swift test.swift
+
+To obtain arguments passed in on the command line, just do this:
+
+``test.swift``:
+
+.. sourcecode:: bash
+
+    println(Process.arguments)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift a b c 1
+    [test.swift, a, b, c, 1]
     >
 
-Array access starts from ``0`` (indexing is 0-based).  Notice the simplicity of the ``for f in fruits`` usage.  
+.. _files:
 
-To check the number of items in an array, use ``count``.  If there are no items, then ``isEmpty()`` will return ``true``.
+***************
+File Operations
+***************
+
+Reading
 
 .. sourcecode:: bash
+
+    import Foundation
+    let fn = Process.arguments[1]
+    var error: NSError?
     
-    var a = [4,5,6]
-    a.count == 3
-    // true
-    a.isEmpty()
-    // false
-    
-.. sourcecode:: bash
-
-    var array = ["a","b","c","d","e","f"]
-    println("\(array)")
-    array[4] = "k"
-    println(array)
-    
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    [a, b, c, d, e, f]
-    [a, b, c, d, k, f]
-    >
-
-Arrays have properties ``first`` and ``last``
-
-.. sourcecode:: bash
-
-    var a = Array(1..<10)
-    println("\(a.first!), \(a.last!)")
-    a = [1,2,3,4]
-    println("\(a.first), \(a.last)")
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    1, 9
-    Optional(1), Optional(4)
-    >
-
-They can also test whether a value is included:
-
-.. sourcecode:: bash
-
-    contains([1,2,3], 3)
-    // true
-
-These are Optionals, even with an array formed like ``[1,2,3,4]``, so to get the value, use ``!`` as in the first part.  For more details, see :ref:`optionals`.
-
-------------------
-Modifying an array
-------------------
-
-One way is to use subscript access, as shown above.
- 
-Another way to insert at a particular position, is to use ``insert(value, atIndex: index)``, like so:
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c"]
-    a.insert("spam", atIndex: 1)
-    println(a)
-    \\ ["a","spam","b","c"]
-    println(a.count)
-    \\ 4
-
-If we're adding onto the end, use ``append`` for a single value or what is really nice, **use concatenation as the equivalent of Python's ``extend``**
-
-.. sourcecode:: bash
-
-    var a = [4,5,6]
-    a.append(10)
-    // [4,5,6,10]
-    a += [21,22,23]
-    // [4,5,6,10,21,22,23]
-
-One can also use Range (slice) notation with arrays.
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c","d","e","f"]    
-    // fatal error: Array index out of range
-    // array[3...6] = ["w","x","y","z"]
-    array[3...5] = ["x","y","z"]
-    println(array)
-    // ["a","b","c","x","y","z"]
-
-The valid indexes in an array run from 0 to ``count - 1`` so we can do:
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c","d","e","f"]
-    let end = a.count - 1   
-    array[3...end] = ["x","y","z"]
-    println(array)
-    // ["a","b","c","x","y","z"]
-
-As the docs say
-
-    You can also use subscript syntax to change a range of values at once, even if the replacement set of values has a different length than the range you are replacing:
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c","d","e","f"]
-    a[1...4] = ["x"]
-    println("\(a)")
-    var b = a
-    b[1] = "j"
-    println("\(a)")
-    println("\(b)")
-    
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    [a, x, f]
-    [a, x, f]
-    [a, j, f]
-    >
-    
-Arrays are value types, so ``a`` and ``b`` refer to different arrays, despite the assignment.
-
-    A value type is a type whose value is copied when it is assigned to a variable or constant
-
-Removing a value by index
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c"]
-    println("\(a.removeAtIndex(1))")
-    println(a)
-    a.insert("x", atIndex:0)
-    println(a)
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    b
-    [a, c]
-    [x, a, c]
-    >
-
-Rather than ``pop`` use ``removeLast``:
-
-.. sourcecode:: bash
-
-    var a = [4,5,6]
-    let b = a.removeLast()
-    // a has the value [4,5]
-    // b has the value 4
-
-One can specify the type of an array using two synonymous approaches:  ``[Int]`` or ``Array<Int>``.  Usually the first, shorthand way is preferred.  To instantiate, add the call operator ``()``:
-
-.. sourcecode:: bash
-
-    var array = [Int]()
-    println(array)
-    println("array is of type [Int]")
-    println("array has \(array.count) items")
-    for x in 1...3 { array.append(x) }
-    println(array)
-    println("Now, array has \(array.count) items")
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    []
-    array is of type [Int]
-    array has 0 items
-    [1, 2, 3]
-    Now, array has 3 items
-    >
-    
-In this last example, we've used string interpolation to print the value of the property ``count``.
-
-This works as you'd expect
-
-.. sourcecode:: bash
-
-    var intArr = [Double](count: 3, repeatedValue: 2.5)
-    
-As we said at the beginning, looping over the values can be done by ``for-in``:
-
-.. sourcecode:: bash
-
-    var a = 1...2
-    for var i in a { println("\(i)") }
-    \\ 1
-    \\ 2
-
------------
-Enumeration
------------
-
-Swift also has enumeration:
-
-.. sourcecode:: bash
-
-    var fruitArr = ["apples", "bananas", "cats"]
-    for (index, value) in enumerate(fruitArr) {
-        println("Item \(index + 1): \(value)")
+    var text:String? = String.stringWithContentsOfFile(
+        fn, 
+        encoding:NSUTF8StringEncoding, 
+        error: &error)
+    if error != nil { 
+        println(error) 
+    }
+    else {
+        var a = text!.componentsSeparatedByString(" ")
+        println(a)
+        var b = text!.componentsSeparatedByCharactersInSet(
+            NSCharacterSet (charactersInString: " \n"))
+        println(b)
     }
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
-    Item 1: apples
-    Item 2: bananas
-    Item 3: cats
-    >
-
-A little functional programming:
+    > xcrun swift test.swift x.txt
+    [abc
+    def]
+    [abc, def]
 
 .. sourcecode:: bash
 
-    var a = Array(1...10)
-    func isEven(i: Int) -> Bool {
-       let x = i % 2
-       return x == 0
+    > xcrun swift test.swift y.txt
+    Optional(Error Domain=NSCocoaErrorDomain \
+    Code=260 "The file “y.txt” couldn’t be opened because \
+    there is no such file." \
+    UserInfo=0x7f95907576b0 {NSFilePath=y.txt, \
+    NSUnderlyingError=0x7f959079d090 \
+    "The operation couldn’t be completed. \
+    No such file or directory"})
+    >
+
+and writing:
+
+``test.swift``
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    let s = "my data\n"
+    let path = "x.txt"
+    var error: NSError?
+    s.writeToFile(path, 
+        atomically:true, 
+        encoding:NSUTF8StringEncoding, 
+        error: &error)
+    if error != nil { 
+        println(error) 
     }
-    println(a.filter(isEven))
+
+.. sourcecode:: bash
+
+    > cat x.txt
+    my data
+    >
     
+.. _stdin:
+
+***************
+Read from StdIn
+***************
+
+Here is an example of reading data from a file input on the command line in swift.  We first compile the swift code, and then execute it.  The listing for 
+
+``test.swift``
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    func readIntsFromStdIn() -> [Int]? {
+        let stdin = NSFileHandle.fileHandleWithStandardInput()
+        let data: NSData = stdin.availableData
+        let s: String = NSString.init(data: data, 
+            encoding:NSUTF8StringEncoding)
+        let cs = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        let sa: [String] = s.componentsSeparatedByCharactersInSet(cs)
+        var a: [Int] = Array<Int>()
+        for c in sa {
+            if let n = c.toInt() {
+                a.append(n)
+            }
+        }
+        if a.count == 0 { return nil }
+        return a
+    }
+
+    let arr = readIntsFromStdIn()
+    if arr != nil {
+        println("\(arr!)")
+    }
+    
+Since we might not read any ``Int`` data, I made the return type an Optional.
+
+The data we will read looks like this:
+
+``x.txt``
+
+.. sourcecode:: bash
+
+    43 39 65
+    22	102
+
+When examined with ``hexdump`` we see that in addition to the newline (``\x0a``) and spaces (``\x20``), the data also has one tab (``\x09``):
+
+.. sourcecode:: bash
+
+    > hexdump -C x.txt
+    00000000  34 33 20 33 39 20 36 35  0a 32 32 09 31 30 32     |43 39 65.22.102|
+    0000000f
+    >
+
+.. sourcecode:: bash
+
+    > xcrun -sdk macosx swiftc test.swift
+    > ./test < x.txt
+    [43, 39, 65, 22, 102]
+    >
+
+Looks like it's working fine.
+
+.. _random:
+
+**************
+Random numbers
+**************
+
+Swift doesn't seem to have a built-in facility for getting random numbers.  However, there are some Unix functions available, after an ``import Foundation``.  These are ``arc4random``, ``arc4random_uniform``, ``rand``, and ``random``.  
+
+Only ``rand`` and ``random`` allow you to set the seed (with ``srand`` or ``srandom`` respectively).  These are usually called with the time, as in ``srand(time(NULL))``.
+
+http://iphonedevelopment.blogspot.com/2008/10/random-thoughts-rand-vs-arc4random.html
+
+For *really* random numbers, it seems that ``arc4random`` is preferred, but it can't be seeded.
+
+    - arc4random
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    var a = Array<Int>()
+    for i in 1...100000 {
+        a.append(Int(arc4random()))
+    }
+
+    var m = 0
+    for value in a {
+        if value > m { m = value }
+    }
+
+    println(m)
+    // 4294948471
+
+The error message when you try to put the result of ``arc4random`` directly into an ``[Int]`` says that it is a ``UInt32``, an unsigned integer of 32 bits.
+
+We use a bit of trickery to obtain the familiar Python syntax:
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    infix operator **{}
+    func ** (n: Double, p: Double) -> Double {
+        return pow(n,p)
+
+The definition must be at global scope.  (For more about this see  :ref:`operators`).  We compute
+
+.. sourcecode:: bash
+
+    println("\(2**32)")
+    // 4294967296.0
+
+which sounds about right.  (The ``pow`` function takes a pair of ``Double`` values, and returns one as well).
+
+We could certainly work with the result from ``arc4random``.  To obtain a random integer in a particular range, we first need to divide by the maximum value
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    var f = Double(arc4random())/Double(UInt32.max)
+    println("\(f)")
+    var str = NSString(format: "%7.5f", f)
+    println(str)
+
 .. sourcecode:: bash
 
     > xcrun swift test.swift
-    [2, 4, 6, 8, 10]
+    0.333160816070894
+    0.33316
     >
 
-------------------
-List comprehension
-------------------
-
-List comprehension is not built-in, but the functional programming constructs make it fairly easy.  Here is an example with ``filter`` and a trailing closure.
-
-http://stackoverflow.com/questions/24003584/list-comprehension-in-swift
+then do
 
 .. sourcecode:: bash
 
-    let evens = filter(1..<10) { $0 % 2 == 0 }
-    println(evens)
-    // [2, 4, 6, 8]
+    import Foundation
 
-------------------
-Array Modification
-------------------
+    func randomIntInRange(begin: Int, end: Int) -> Int {
+        var f = Double(arc4random())/Double(UInt32.max)
+        // we must convert to allow the * operation
+        let range = Double(end - begin)
+        let result: Int = Int(f*range)
+        return result + begin
+    }
 
-If you pass an array to a function with the intention of modifying it, declare the array parameter as ``inout`` and pass ``&a`` to the function, like this:
+
+    for i in 1...100 {
+        println(randomIntInRange(0,2)) 
+    }
+
+which gives the expected result (only 0 and 1).
+
+However, rather than doing that, do this:
 
 .. sourcecode:: bash
 
-    func pp (s: String, a: [Int]) {
-        print (s + " ")
-        for n in a { print("\(n) ") }
+    import Foundation
+    for i in 1...10 {
+        println(arc4random_uniform(2)) 
+    }
+
+The function ``arc4random_uniform(N)`` gives a result in ``0...N-1``, that is ``[0:N)``.
+
+If you want to seed the generator, use ``rand`` or ``random``.  The first one generates a ``UInt32``.  The second generates an Int.
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    import Foundation
+    var a = Array<Int>()
+    for i in 1...100000 {
+        a.append(random())
+    }
+
+    var m = 0
+    for value in a {
+        if value > m { m = value }
+    }
+
+    println("\(m)") 
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    2147469841
+    >
+
+which appears to be in the range 0 to
+
+.. sourcecode:: bash
+
+    pow(Double(2),Double(31)) - 1
+
+as we would expect for a signed int32, which is what ``Int`` is.  So, ``random`` gives an Int, which is good, and it can be seeded:
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    func getSeries(seed: Int) -> [Int] {
+        srandom(137)
+        var a = Array<Int>()
+        for i in 1...5 {
+            a.append(random())
+        }
+        return a
+    }
+
+    func doOne(seed: Int) {
+        let a = getSeries(seed)
+        for v in a { print("\(v) ")}
         println()
     }
 
-    func swap(inout a: [Int], i: Int, j: Int) {
-        let tmp = a[i]
-        a[i] = a[j]
-        a[j] = tmp
-    }
+    for i in 1...2 { doOne(137) }
 
-    func selection_sort(inout a: [Int]) {
-        for i in 0...a.count - 2 {
-            for j in i...a.count - 1 {
-                if a[j] < a[i] {
-                    swap(&a,i,j)
-                }
-            }
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    171676246 1227563367 950914861 1789575326 941409949 
+    171676246 1227563367 950914861 1789575326 941409949 
+    >
+
+If you want to "shuffle", the correct algorithm is to move through the array and do an exchange with a random value from the current position *through the end of the array*
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    func shuffleIntArray(array: [Int]) {
+        var j: Int, a: Int, b: Int, tmp: Int
+        for i in 0...array.count-1 {
+            let r = UInt32(array.count - i)
+            j = i + Int(arc4random_uniform(r))
+            // j = min(i + 1, array.count-1)
+            tmp = array[i]
+            array[i] = array[j]
+            array[j] = tmp
         }
     }
 
-    func insertion_sort(inout a: [Int]) {
-        for i in 1...a.count-1 {
-            // a[0...i] are guaranteed to be sorted
-            var tmp = Array(a[0...i])
+    var a: [Int] = [1,2,3,4,5,6,7]
+    shuffleIntArray(a)
+    println("\(a)")
+    
+This should work, but I am getting the error:  ``error: '@lvalue $T5' is not identical to 'Int'    array[i] = array[j]``.  It is not letting me assign an Int to ``array[i]`` because the value ``array[i]`` is not an Int.  
 
-            // go up to penultimate value
-            let v = tmp.last!
-            for j in 0...tmp.count - 2 {
-                if tmp[j] > v {
-                    tmp.insert(v, atIndex:j)
-                    tmp.removeLast()
-                    break
-                }
-            }
-            a[0...i] = tmp[0...tmp.count-1]
-        }
+It happens even when the ``random`` code is replaced by the fake version ``j = min(i + 1, array.count-1)``.
+
+In simpler terms, this works:
+
+.. sourcecode:: bash
+
+    var a: [Int] = [1,2,3,4,5,6,7]
+    println("\(a)")
+    let tmp = a[0]
+    a[0] = a[2]
+    a[2] = tmp
+    println("\(a)")
+
+and this gives the error:
+
+.. sourcecode:: bash
+
+    func swapTwo(a: [Int], i: Int, j: Int) {
+        let v1 = a[i]
+        let v2 = a[j]
+        a[i] = v2
+        a[j] = v1
     }
 
-    var a = [32,7,100,29,55,3,19,82,23]
-    pp("a: ", a)
+It's weird but I believe it is due to a restriction on functions modifying arrays.
 
-    let b = sorted(a, { $0 < $1 })
-    pp("b: ", b)
+I was able to get around it by constructing an entirely new array for each call to ``swap``:
 
-    var c = a
-    pp("c: ", c)
-    selection_sort(&c)
-    pp("c: ", c)
+.. sourcecode:: bash
 
-    var d = a
-    pp("d: ", d)
-    insertion_sort(&d)
-    pp("d: ", d)
+    import Foundation
+
+    func swapTwo(input: [Int], i: Int, j: Int) -> [Int] {
+        var a = input
+        let first = a[i]
+        let second = a[j]
+        a.removeAtIndex(i)
+        a.insert(second, atIndex:i)
+        a.removeAtIndex(j)
+        a.insert(first, atIndex:j)
+        return a
+    }
+
+But a much better solution is to wrap the data in a struct and then have a function that is marked as ``mutating``
+
+.. sourcecode:: bash
+
+    import Darwin
+
+    struct Ordering {
+        var a: [Int]
+        init() {
+            self.a = Array(1...100)
+        }
+        var repr: String {
+            get { return ("\(self.a[0...4])") }
+        }
+        mutating func shuffleArray() {
+            var i: Int, j: Int, t: Int
+            var a = self.a
+            for i in 0...a.count-1 {
+                let r = UInt32(a.count - i)
+                j = i + Int(arc4random_uniform(r))
+                t = a[i]
+                a[i] = a[j]
+                a[j] = t
+            }
+            self.a = a
+        }
+        mutating func sort() {
+            self.a.sort { $0 < $1 }
+        }
+    }
     
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
-    a:  32 7 100 29 55 3 19 82 23 
-    b:  3 7 19 23 29 32 55 82 100 
-    c:  32 7 100 29 55 3 19 82 23 
-    c:  3 7 19 23 29 32 55 82 100 
-    d:  32 7 100 29 55 3 19 82 23 
-    d:  3 7 19 23 29 32 55 82 100 
-    >
+    var o = Ordering()
+    println("\(o.repr)")
+    o.shuffleArray()
+    println("\(o.repr)")
+    o.sort()
+    println("\(o.repr)")
 
-If you forget to do this you'll get a funny error:
+This works:
 
 .. sourcecode:: bash
 
     > xcrun swift test.swift
-    test.swift:8:5: error: '@lvalue $T8' is not identical to 'Int'
-        a[i] = a[j]
-        ^
-    test.swift:9:5: error: '@lvalue $T5' is not identical to 'Int'
-        a[j] = tmp
-        ^
+    [1, 2, 3, 4, 5]
+    [54, 60, 34, 99, 80]
+    [1, 2, 3, 4, 5]
     >
 
-*****************
-Sorting (default)
-*****************
+.. _binary_numbers:
 
-To obtain a sorted array, one can use either ``sort`` (in-place sort) or ``sorted`` (returns a new sorted array).
+**************
+Binary Numbers
+**************
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    let b: UInt8 = 0b10100101
+    println("\(b)")
+    println(NSString(format: "%x", b))
+    let b2 = ~b
+    println("\(b2)")
+    println(NSString(format: "%x", b2))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    165
+    a5
+    90
+    5a
+    >
+
+    - ``~`` not
+    - ``|`` or
+    - ``^`` xor
+    - ``<<`` left shift
+    - ``>>`` right shift
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    let b1: UInt8 =       0b10100101
+    let b2: UInt8 =       0b00001111
+    let b3 = b1 ^ b2  //  0b10101010
+    println("\(b3)")
+    println(NSString(format: "%x", b3))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    170
+    aa
+    >
+
+Note:  ``a`` is ``1010``.
+
+.. sourcecode:: bash
+
+
+    let pink: UInt32 = 0xCC6699
+    let redComponent = (pink & 0xFF0000) >> 16    
+    // redComponent is 0xCC, or 204
+    let greenComponent = (pink & 0x00FF00) >> 8   
+    // greenComponent is 0x66, or 102
+    let blueComponent = pink & 0x0000FF           
+    // blueComponent is 0x99, or 153
+
+Having exclusive or immediately suggests encryption.  Here is a silly example:
+
+.. sourcecode:: bash
+
+    import Foundation
+
+    let key = "MYFAVORITEKEY"
+    let text = "TOMISANERD"
+    let m = countElements(key)
+    let n = countElements(text)
+    assert (m > n)
+
+    let kA = key.utf8
+    let tA = text.utf8
+    var cA = [UInt8]()
+    for (k,t) in Zip2(kA,tA) {
+        let c = t^k
+        println("\(t) \(k) \(c)")
+        cA.append(c)
+    }
+
+    var pA = [Character]()
+    for (k,c) in Zip2(kA,cA) {
+        let t = c^k
+        print("\(t) ")
+        let s = Character(UnicodeScalar(UInt32(t)))
+        pA.append(s)
+    }
+    println()
+    let p = "" + pA
+    println(p)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    84 77 25
+    79 89 22
+    77 70 11
+    73 65 8
+    83 86 5
+    65 79 14
+    78 82 28
+    69 73 12
+    82 84 6
+    68 69 1
+    84 79 77 73 83 65 78 69 82 68 
+    TOMISANERD
+    >
+
+See discussion here:
+
+http://stackoverflow.com/questions/24465475/how-can-i-create-a-string-from-utf8-in-swift
+
+.. _functions:
+
+*********
+Functions
+*********
+
+Function definitions are labeled with the keyword ``func``
+
+.. sourcecode:: bash
+
+    func greet(n:String) {
+        println("Hello \(n)")
+    }
+    greet("Tom")
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    Hello Tom
+    >
+
+If you want to return a value, it must be typed
+
+.. sourcecode:: bash
+
+    func count(n:String) -> Int {
+        // global function
+        return countElements(n)
+    }
+    println(count("Tom"))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    3
+    >
+
+Here is an example from the Apple docs:
+
+.. sourcecode:: bash
+
+    func sumOf(numbers: Int...) -> Int {
+        var sum = 0
+        for n in numbers {
+            sum += n
+        }
+        return sum
+    }
+
+    println(sumOf())
+    println(sumOf(42,597,12))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    0
+    651
+    >
+
+The ``...`` means the function takes a variadic parameter (number of items is unknown at compile-time---see the docs).
+
+But then they say:
+
+    Functions can be nested. Nested functions have access to variables that were declared in the outer function. You can use nested functions to organize the code in a function that is long or complex.
+    
+So let's try something.  Add ``let x = 2`` as line 1.
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    2
+    653
+    >
+
+They're not kidding!  The ``x`` at global scope is available inside ``sumOf``.  You can nest deeper:
+
+.. sourcecode:: bash
+
+    let s = "abc"
+    func f() {
+        let t = "def"
+        println(s)
+        func g() {
+            println(s + t)
+            println(s + "xyz")
+        }
+        g()
+    }
+    f()
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    abc
+    abcdef
+    abcxyz
+    >
+
+Functions can return multiple values (from the Apple docs, with slight modification):
+
+.. sourcecode:: bash
+
+    func minMax(a: [Int]) -> (Int,Int) {
+        min = a[0]
+        max = a[1]
+        for i in a[1..<a.count] {
+            if i < min  {
+                min = i
+            }
+            if i > max {
+                max = i
+            }
+        }
+        return (min,max)
+    }
+    arr: [Int] = [8,-6,2,109,3,71]
+    var (s1,s2) : (Int,Int) = minMax(arr)
+    println("min = " + s1 + " and max = " + s2)
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    x y
+    >
+
+Return a function:
+
+.. sourcecode:: bash
+
+    func adder(Int) -> (Int -> Int) {
+        func f(n:Int) -> Int {
+            return 1 + n
+        }
+        return f
+    }
+    var addOne = adder(1)
+    println(addOne(5))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    6
+    >
+
+Notice how the return type of ``adder`` is specified.
+
+Provide a function as an argument to a function:
+
+.. sourcecode:: bash
+
+    func filter(list: [Int], cond:Int->Bool) -> [Int] {
+        var result:[Int] = []
+        for e in list {
+           if cond(e) {
+              result.append(e)
+           }
+        }
+        return result
+    }
+    func lessThanTen(number: Int) -> Bool {
+        return number < 10
+    }
+    println(filter([1,2,13],lessThanTen))
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    [1, 2]
+    >
+
+Function parameters
+-------------------
+
+It may be useful to require the caller to identify the parameters as they are entered into the function call.  For example, when calling ``NSMakeRect`` one would do something like this:
+
+.. sourcecode:: bash
+
+    let r = NSMakeRect(x:1.0,y:1.0,width:50.0,height:50.0)
+
+``x``, ``y``, ``width`` and ``height`` are named parameters.  The declaration of the function might be something like this
+
+.. sourcecode:: bash
+
+    ``func NSMakeRect(x x: Double, y y: Double, width w: Double, height h: Double)``
+    
+The *external* parameter name preceeds the *internal* parameter name.  In this case, the internal name is already a good external name for ``x`` and ``y``.  So combine them, like this:
+
+.. sourcecode:: bash
+
+    ``func NSMakeRect(#x: Double, #y: Double, width w: Double, height h: Double)``
+
+    
+An example from the Apple docs:
+
+.. sourcecode:: bash
+
+    func join(string1 s1: String, string2 s2: String, withJoiner joiner: String) -> String {
+        return s1 + joiner + s2
+    }
+
+    println(join(string1: "hello", string2: "world", withJoiner: ", "))
+
+Prints:
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    hello, world
+    >
+
+As the code shows, we have two identifiers for each variable, one used in calling the function, and the other used inside the function.
+
+As we said, while the "external parameter" and the "internal parameter" identifiers can be different (above), they don't have to be.  In that case, the arguments are marked with "#".  Here is the example in the docs:
+
+.. sourcecode:: bash
+
+    func containsCharacter(#string: String, #char: Character) -> Bool {
+        for c in string {
+            if char == c {
+                return true
+            }
+        }
+        return false
+    }
+
+    let containsV = containsCharacter(string: "aardvark", char: "v")
+    if containsV {
+        println("aardvark contains a v")
+    }
+
+Prints:
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift 
+    aardvark contains a v
+    >
+
+Default parameters
+------------------
+
+A function can also have default parameters.  As in Python, the *default parameters must come after all non-default parameters*:
+
+.. sourcecode:: bash
+
+    func join(s1: String, s2: String, joiner: String = " ") -> String {
+        return s1 + joiner + s2
+    }
+    println(join("hello","world"))
+    println(join("hello","world",joiner: "-"))
+    
+.. sourcecode:: bash
+     
+    > xcrun swift test.swift 
+    hello world
+    hello-world
+    >
+    
+There are several other fancy twists on parameters that you can read about in the docs, for example:  variadic parameters, parameters that are constant.
+
+.. _closures_intro:
+
+***********************
+Closures:  introduction
+***********************
+
+According to the docs:
+
+    Closures are self-contained blocks of functionality that can be passed around and used in your code. Closures in Swift are similar to blocks in C and Objective-C and to lambdas in other programming languages.
+
+Here is the docs' example where the comparison function is turned into a closure:
 
 .. sourcecode:: bash
 
     let names = ["Chris", "Alex", "Barry"]
-    var sorted_names = sorted(names)
-    println(sorted_names)
-    
-.. sourcecode:: bash
-    
-    > xcrun swift test.swift
-    [Alex, Barry, Chris]
-    >
-
-The use of ``let`` looks a little strange, but here the "constant" designation just means that the length of the array can't be changed, although one *can* still change the values.
-
-.. sourcecode:: bash
-
-    var a = ["Chris", "Alex", "Barry"]
-    a.sort { $0 < $1 }
-    println(a)
-
-This also prints what you might guess.  It's a bit advanced, because we are using a closure (notice the brackets ``{ }``) rather than a named function.  We looked at the use of closures elsewhere (:ref:`closures`).  
-
-One of the unusual properties of closures is that under certain circumstances (what is called a "trailing closure" as a single argument), there is no need for a call operator ``( )``, even though ``sort`` is being called with the closure as its argument.  
-
-The important thing is that you must provide a comparison method, you can't just call ``sort``.
-
-.. sourcecode:: bash
-
-    var names = ["Chris", "Alex", "Barry"]
-    names.sort()
-    
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    test.swift:3:11: error: \
-    missing argument for parameter #1 in call
-    names.sort()
-              ^
-    >
-
-Swift has a few global functions, and some work on arrays including ``sort(array)``, ``sort(array, predicate)``, ``sorted(array)`` and ``reversed``.  ``sorted`` will sort an array of types that know how to do comparison (follow the ``Comparable`` protocol), or you can pass a comparison function to it.  
-
-Here is a ``cmp`` function for Strings:
-
-.. sourcecode:: bash
-
-    func cmp(a: String, b: String) -> Bool {
-        let m = countElements(a)
-        let n = countElements(b)
-        if m < n { return true }
-        if m > n { return false }
-        return a < b
+    func backwards(s1: String, s2: String) -> Bool {
+        return s1 > s2
     }
+    var rev = sorted(names, backwards)
+    println(rev)
 
-    var a: [String] = ["a","abc","c","cd"]
-    println(sorted(a,cmp))
-    println(a)
-    a.sort(cmp)
-    println(a)
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    [a, c, cd, abc]
-    [a, abc, c, cd]
-    [a, c, cd, abc]
-    >
-
-We've sorted first by length and then lexicographically, as desired.
-
-************
-Dictionaries
-************
-    
-Here is a simple dictionary
-
-.. sourcecode:: bash
-
-    var D = ["a":"apple","b":"banana","c":"cookie"]
-    for (k,v) in D {
-        println("key: \(k) is for value: \(v)")
-    }
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    key: b is for value: banana
-    key: c is for value: cookie
-    key: a is for value: apple
-    >
-
-The construct ``for (tuple) in dictionary`` loops over tuples of (key, value) pairs.
-
-We can also ask for 
-
-    - ``D.keys`` 
-    - ``D.values``
-    - ``D.count``
-
-.. sourcecode:: bash
-
-    var D = ["a":"apple","b":"banana","c":"cookie"]
-    println(Array(D.keys))
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    [b, c, a]
-    >
-
-.. sourcecode:: bash
-
-    var D = ["a":"apple","b":"banana","c":"cookie"]
-    println(Array(D.values))
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    [banana, cookie, apple]
-    >
-
-
-Without the ``Array()``, you get
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    Swift.LazyBidirectionalCollection
-    >
-
-Here is the example from the docs:
-
-.. sourcecode:: bash
-
-    var airports = ["DUB":Dublin, TYO:"Tokyo"]
-    for code in airports {
-        println("\(code): \(airports[code])")
-    }
-    for code, city in airports.values {
-    println("\(code): \(city)")
-    }
-    for city in airports.values {
-    println("\(city)")
-    }
-
-We can access the values by subscript notation.
-
-.. sourcecode:: bash
-
-    var D: [String: Int] = ["apple":1, "banana":2]
-    println(D)
-    D["apple"] = 5
-    println(D)
-    D["cookie"] = 10
-    println(D)
-
-In the code above we declared the type of ``D`` as ``[String: Int]``.  This also works:
-
-.. sourcecode:: bash
-
-    var D = Dictionary<String,Int>()
-    var D1: Dictionary<String,Int> = ["apple":1]
-    println(D1["apple"]!)
-    
-and when run it prints ``1``, as you'd expect.  What is going on is that the ``Dictionary`` class is actually defined as a generic ``Dictionary<KeyType,ValueType>``.  The subscript notation works because that mechanism has been defined inside the class.
-
-In the first line ``var D = Dictionary<String,Int>()``, we are getting an instance of dictionary, so we need the call operator ``( )``, which will call the ``init()`` method of the class.
-
-An important point to remember about dictionaries is that a call to retrieve the value for a key may fail.  In general, dictionary operations return a value if the key is present, and otherwise ``nil``.  So the type defined to be returned is an "Optional".
-
-In the code above we did ``D1["apple"]!``.  The value of return type is a ``ValueType?``, which you must force to ``ValueType`` by saying ``ValueType!`` if you're sure it's not ``nil``.  Of course, you should test for ``nil``, so we should really do:
-
-.. sourcecode:: bash
-
-    var D: Dictionary<String,Int> = ["apple":1]
-    if let value = D["apple"] {
-        println(value!)
-    }
-
-The dictionary method ``updateValue`` returns the old value if present, otherwise it returns ``nil``
-
-.. sourcecode:: bash
-
-    if let oldValue = D.updateValue(100, forKey:"cookie") {
-        println("The old value was \(oldValue)")
-    }
-    else {
-        println("cookie is not in the dictionary")
-    }
-    println(D)
+    rev = sorted(names, { 
+          (s1: String, s2: String) 
+          -> Bool in return s1 > s2
+          })
+    println(rev)
 
 .. sourcecode:: bash
 
     > xcrun swift test.swift 
-    [apple: 1, banana: 2]
-    [apple: 5, banana: 2]
-    [cookie: 10, apple: 0, banana: 2]
-    The old value was 10
-    [cookie: 100, apple: 0, banana: 2]
+    [Chris, Barry, Alex]
+    [Chris, Barry, Alex]
     >
 
-As usual for a dictionary, the keys are in a particular method based on their hash values, but appear to be unsorted.
+(I reformated the closure).  Personally, I don't see what the big deal is.  I prefer the named function for this one.
 
-.. sourcecode:: bash
-
-    var D = ["a":"apple","b":"banana","c":"cookie"]
-    for k in sorted(D.keys) { println("\(k): \(D[k]!) ") }
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    a: apple 
-    b: banana 
-    c: cookie 
-    >
-
---------------------
-dict(zip(a,b)) idiom
---------------------
-
-I didn't see anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So we'll roll our own:
-
-.. sourcecode:: bash
-
-    var L1 = Array(1...3)
-    var L2 = ["apple","banana","cookie"]
-
-    func dict_zip (aL: Array<Int>, bL: Array<String> ) 
-        -> Dictionary<Int,String> {
-        var D = [Int:String]()
-        for (i,a) in enumerate(aL) {
-            var b = bL[i]
-            D[a] = b
-        }
-        return D
-    }
-
-    println(dict_zip(L1,L2))
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    [1: apple, 2: banana, 3: cookie]
-    >
-
-Later, I did find Swift's ``zip``, it is called ``Zip2``
-
-.. sourcecode:: bash
-
-    var kL = Array(1...3)
-    var vL = ["apple","banana","cookie"]
-    var D = [Int:String]()
-
-    for (key,value) in Zip2(kL,vL) {
-        println("\(key): \(value)")
-        D[key] = value
-    }
-    println(D)
-    
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    1: apple
-    2: banana
-    3: cookie
-    [1: apple, 2: banana, 3: cookie]
-    >
-
-******
-Matrix
-******
-
-The docs have an example of a two-dimensional array or matrix of double values.  I've modified it to store Ints
-
-.. sourcecode:: bash
-
-    struct Matrix {
-        let rows: Int, columns: Int
-        var grid: [Int]
-        init(rows: Int, columns: Int) {
-            self.rows = rows
-            self.columns = columns
-            grid = Array(count: rows * columns, repeatedValue: 0)
-        }
-        func indexIsValidForRow(row: Int, column: Int) -> Bool {
-            return row >= 0 && row < rows && column >= 0 && column < columns
-        }    
-        subscript(row: Int, column: Int) -> Int {
-            get {
-                assert(indexIsValidForRow(row, column: column), "Index out of range")
-                return grid[(row * columns) + column]
-            }
-            set {
-                assert(indexIsValidForRow(row, column: column), "Index out of range")
-                grid[(row * columns) + column] = newValue
-            }
-        }
-    }
-
-    var m = Matrix(rows: 2, columns: 2)
-    m[0, 1] = 1
-    m[1, 0] = 3
-    println(m)
-    println("\(m[0,0]) \(m[0,1])\n\(m[1,0]) \(m[1,1])")
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    test.Matrix
-    0 1
-    3 0
-
-I'm going to strip out the error checking since I never make mistakes.  :)
-And then I want a more flexible way of printing the matrix.  To build each line of the output, I want to convert a slice, obtained by calling ``grid[range]``, to a String.  I found this:
-
-http://vperi.com/2014/06/04/flatten-an-array-to-a-string-swift-extension/
-
-.. sourcecode:: bash
-
-    extension Slice {
-      func combine(separator: String) -> String{
-        var str : String = ""
-        for (idx, item) in enumerate(self) {
-          str += "\(item)"
-          if idx < self.count-1 {
-            str += separator
-          }
-        }
-        return str
-      }
-    }
-
-    var a = [1,2,3]
-    var s = a[0...2]
-    println(s.combine("*"))
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    1*2*3
-    >
-
-This extension builds the string by repeated concatenation.  Probably the library method ``join(sep,array)`` would be better, except it takes an array of String values.  So we'll go with this for the time being.
-
-Now, we take the modified class (no error checking), and add to it a method ``repr`` and a couple other tricks:
-
-.. sourcecode:: bash
-
-    extension Array {
-        func combine(separator: String) -> String {
-            var str : String = ""
-            for (idx, item) in enumerate(self) {
-                str += "\(item)"
-                if idx < self.count-1 {
-                    str += separator
-                }
-            }
-            return str
-        }
-    }
-
-    extension String {
-        func rjust(n: Int) -> String {
-            let length = countElements(self)
-            var extra = n - length
-            if extra <= 0 { return self }
-            let pad = String(count: extra, repeatedValue: Character(" "))
-            return pad + self
-        }   
-    }
-
-    struct Matrix {
-        let rows: Int, columns: Int
-        var grid: [Int] = [0]
-
-        init(rows: Int, columns: Int) {
-            self.rows = rows
-            self.columns = columns
-            self.grid = Array(count: rows * columns, repeatedValue: 0)
-        }
-
-        init(rows: Int, columns: Int, values: [Int] = [0]) {
-            self.rows = rows
-            self.columns = columns
-            if countElements(values) != rows*columns {
-                self.grid = Array(count: rows * columns, repeatedValue: 0)
-            }
-            else {
-                self.grid = values
-            }
-        }
-
-        subscript(row: Int, column: Int) -> Int {
-            get {
-                return self.grid[(row * columns) + column]
-            }
-            set {
-                self.grid[(row * columns) + column] = newValue
-            }
-        }
-
-        var repr: String {
-            get {
-                let n = countElements(String(maxElement(grid)))
-                var s = ""
-                for i in 0...rows-1 {
-                    var str_array = [String]()
-                    var c: String
-                    let current = i*rows
-                    for j in 0...columns-1 {
-                         c = String(self.grid[current + j])
-                         str_array.append(c.rjust(n))
-                    }
-                    let slice = Array(str_array[0...str_array.count-1])
-                    s += slice.combine(" ")
-                    if i < rows - 1 { s += "\n" }
-                }
-                return s
-            }
-        }
-    }
-
-    var m = Matrix(rows: 2, columns: 2, values:[1,2,3,4])
-    println(m.repr)
-    m[0, 1] = 1995
-    m[1, 0] = 500
-    println(m.repr)
-    
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    1 2
-    3 4
-       1 1995
-     500    4
-    >
-    
-I added a String extension that does ``rjust``, and changed the Slice extension to be on Array instead, and convert to an Array before calling ``combine``.  There is a constructor that takes input data for the matrix, as well as the dimensions.
-
-*******
-Structs
-*******
-
-Here is a Swift Struct
-
-.. sourcecode:: bash
-
-    struct Point { var x = 0, y = 1 }
-    var p = Point()
-    p.y = 100
-    println("\(p.x) \(p.y)")
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    0 100
-    >
-
-Structs are passed by value.
-
-.. sourcecode:: bash
-
-    struct Point { var x = 0, y = 1 }
-    var p = Point()
-    p.y = 100
-    println("\(p.x) \(p.y)")
-
-    var q = p
-    q.x = 90
-    println("\(p.x) \(p.y)")
-    println("\(q.x) \(q.y)")
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    0 100
-    0 100
-    90 100
-    >
-
-The Struct ``p`` is not affected by what happens to ``q`` after the copy is made.
-
-Structs are substantially more complex in Swift than in C.  What structs can do:
-
-    - define properties to store values
-    - define methods 
-    - define subscripts to provide access
-    - define initializers to set up their initial state
-    - be extended
-    - conform to a protocol
-
-Classes are still more powerful, though.  Things that classes can do that structs cannot:
-
-    - have more than a single instance
-    - inherit from superclasses
-    - check type at runtime
-    - de-initialize
-    - be reference counted
-
-That's a lot, even for structs!  Let's see what we can demonstrate.
-
-A property (a "stored property")
-
-    is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).
-
-We saw properties in the first example.  On the other hand, properties can be more sophisticated.  A property may be "only calculated when it is needed".
-
-A method (just like in a class)
-
-.. sourcecode:: bash
-
-    struct S {
-        var n: Int
-        func simpleDescription() -> String {
-            return "The value of the property n is \(n)"
-        }
-    }
-
-An initializer is exactly as you would expect, if you imagined making a struct more like a class:
-
-.. sourcecode:: bash
-
-    struct Fahrenheit {
-        var temperature: Double
-        init() {
-            temperature = 32.0
-        }
-    }
-
-Not complicated.  Let's leave subscripts, extension and protocols for later.
-
-One more thing about structs.
-
-    By default, the properties of a value type cannot be modified from within its instance methods.  
-    
-    In the following code, in ``mutating func changeIt``, the ``mutating`` is required, it declares to the compiler we are going to not do the default thing and allow this function to change properties of the struct.
-
-.. sourcecode:: bash
-
-    struct S {
-        var x = 42
-        mutating func changeIt() {
-            x = 43
-        }
-    }
-
-    var s = S()
-    println(s.x)
-    s.changeIt()
-    println(s.x)
-    if (s.x == 43) { println("OK") }
-
-Here it is in an Xcode "playground"
-
-.. image:: /figures/struct_pg.png
-    :scale: 75 %
-
-*******
-Classes
-*******
-
-.. sourcecode:: bash
-
-    class Obj {
-        var name: String
-        init(name: String) {
-            self.name = name
-        }
-        func description() -> String {
-            return "Obj: \(self.name)"
-        }
-    }
-
-    var o = Obj(name: "Tom")
-    println(o.name)
-    println(o.description())
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    Tom
-    Obj: Tom
-    >
-
-My favorite simple example of a class is one which keeps track of the count of instances.  The docs say to do this with a ``class`` variable, but the compiler says this is not implemented *yet*.  So we'll use a global
-
-.. sourcecode:: bash
-
-    var count = 0
-    class O {
-        // not implemented yet!
-        // class var count = 0
-        var name: String
-        init(s: String) {
-            count += 1
-            name = s
-        }
-    }
-
-    var o1: O = O(s: "Tom")
-    println("name: \(o1.name), \(count)")
-    var o2: O = O(s: "Joan")
-    println("name: \(o1.name), \(count)")
-    println("name: \(o2.name), \(count)")
-    
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    name: Tom, 1
-    name: Tom, 2
-    name: Joan, 2
-    >
-
-************
-Enumerations
-************
-
-.. sourcecode:: objective-c
-
-    // one-liner variant
-    enum CoinFlip { case Heads, Tails }
-
-    var flip = CoinFlip.Heads
-    flip = .Tails
-    if flip == .Tails { println("tails") }
-    
-.. sourcecode:: objective-c
-
-    > xcrun swift test.swift 
-    tails
-    > 
-
-If the definition is multiple lines, it's slightly different:
-
-.. sourcecode:: objective-c
-
-    enum CompassPoint {
-        case North
-        case South
-        case East
-        case West
-    }
-
-    var directionToHead = CompassPoint.West
-    directionToHead = .South
-
-    switch directionToHead {
-    case .North:
-        println("Lots of planets have a north")
-    case .South:
-        println("Watch out for penguins")
-    case .East:
-        println("Where the sun rises")
-    case .West:
-        println("Where the skies are blue")
-    }
-
-.. sourcecode:: objective-c
-
-    > xcrun swift test.swift 
-    Watch out for penguins
-    > 
-
-Enumerations in Swift are much more sophisticated than what you might be used to from other languages.
-
-Here is an example based on the fact that bar-codes can be an array of 4 integers (UPCA) or a graphic that can be converted to a potentially very long String.  See the docs for details.
-
-.. sourcecode:: objective-c
-
-    enum Barcode {
-        case UPCA(Int, Int, Int, Int)
-        case QRCode(String)
-    }
-
-    var productBarcode = Barcode.UPCA(8, 85909, 51226, 3)
-    productBarcode = .QRCode("ABCDEFGHIJKLMNOP")
-
-    switch productBarcode {
-        case .UPCA(let numberSystem, let manufacturer, let product, let check):
-            println("UPC-A: \(numberSystem), \(manufacturer), \(product), \(check).")
-        case .QRCode(let productCode):
-            println("QR code: \(productCode).")
-    }
-    
-.. sourcecode:: objective-c
-
-    > xcrun swift test.swift 
-    QR code: ABCDEFGHIJKLMNOP.
-    >
-
-Here are some other enum definitions from the docs that I haven't really made into full examples yet:
-
-.. sourcecode:: objective-c
-
-    enum ASCIIControlCharacter: Character {
-        case Tab = "\t"
-        Case LineFeed = "\n"
-        Case CarriageReturn = "\r"
-    }
-
-    enum Planet: Int {
-        case Mercury = 1, Venus, Earth, Mars, 
-                          Jupiter, Saturn, Uranus, Neptune 
-    }
-
-And one of mine.
-
-.. sourcecode:: objective-c
-
-    enum Vector {
-        case _3D(Int, Int, Int)
-        case _2D(Int, Int)
-        case _1D(Int)
-    }
-
-********
-Closures
-********
-
-A closure is like function with no name.  You are going to use it right away, so it seems like a shame to waste a good name on it.  Sort of like Clint Eastwood
-
-http://en.wikipedia.org/wiki/Man_with_No_Name
-
-Maybe the simplest closure is the one I used in the chapter on sorting:
-
-.. sourcecode:: bash
-
-    var a = ["Chris", "Alex", "Barry"]
-    a.sort { $0 < $1 }
-    println(a)
-
-.. sourcecode:: bash
-
-    > xcrun swift x.swift 
-    ["Alex", "Barry", "Chris"]
-    >
-    
-The second line has a closure in it ``{ $0 < $1 }``.  It uses special built-in variables ``$0`` and ``$1`` and will be called with two arguments that are to be compared to each other.  
-
-The ``<`` is our contribution.  We might as well have put ``>``, to sort in the reverse order. 
-
-We could do this more explicitly as:
-
-.. sourcecode:: bash
-
-    { (a: String, b: String) -> Boolean 
-        in return a < b }
-
-Or fairly compactly as
-
-.. sourcecode:: bash
-
-    { a,b in a < b }
-
-The Array class function ``map`` takes a function and applies it to each member of the array.  Here is a first example, using ``map`` with a function (rather than a closure):
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c"]
-    func star (s: String) -> String {
-        return s + "*" 
-    }
-    let result = a.map(star)
-    println(result)
-
-.. sourcecode:: bash
-
-    > xcrun swift x.swift 
-    [a*, b*, c*]
-    >
-
-Now, maybe we don't expect to want to reuse ``star`` in any other place.  Or... well, there are some common usages we can talk about in a bit.  So modify the example to use a closure:
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c"]
-    let result = a.map({
-        (s: String) -> String in
-        return s + "*" 
-        })
-    
-    println(result)
-
-This second version (above) gives the same result as the first.  The keyword ``in`` separates the argument list and return type from the body.
-
-Here is another example:
-
-.. sourcecode:: bash
-
-    var a = [20, 19, 7, 12]
-    let result = a.map({
-        (number: Int) -> Int in
-        let result = 3 * number
-        return result
-        })
-
-    println(result)
-    
-    .. sourcecode:: bash
-    
-    > xcrun swift x.swift 
-    [60, 57, 21, 36]
-    >
-
-The rules allow you to omit things if they're obvious.  In the above example, we can omit the argument type since it's obvious from the array we use:
-
-.. sourcecode:: bash
-
-    var a = [20, 19, 7, 12]
-    let result = a.map({
-        number -> Int in
-        let result = 3 * number
-        return result
-        })
-    
-You can omit the return type because it is also obvious (but you must omit the ``-> Int``, the variable ``result`` and the ``return`` statement).
-
-.. sourcecode:: bash
-    
-    var a = [20, 19, 7, 12]
-    let result = a.map({
-        number in 3 * number
-        })
-
-Similarly, for the other example this works:
-
-.. sourcecode:: bash
-
-    var a = ["a","b","c"]
-    let result = a.map({ s in s + "*" })
-    println(result)
-        
-        
-        
+Where they do come in handy is for callbacks.  If we start a dialog to obtain a filename, we can pass into the dialog the code where we want execution to go after the name is obtained.
