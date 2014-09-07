@@ -9,11 +9,11 @@ Welcome to MySwift's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   part1/index
-   part2/index   
-   part3/index
-   part4/index
-   part5/index
+   chapter1
+   chapter2
+   chapter3
+   chapter4
+   chapter5
    
