@@ -244,7 +244,7 @@ A concatenation example:
     
 Again, the type of ``c`` is Character.
 
-
+-------
 Unicode
 -------
 
@@ -388,7 +388,7 @@ In Swift, this is done as follows with ``.utf8``:
     '0xba'
     >>>
     
-
+-------------------
 Counting characters
 -------------------
 
@@ -479,6 +479,50 @@ Now try the same thing with NSString:
     >
 
 So, the problem (solved by Swift and not by NSString) is how to deal with "extended grapheme clusters".  Such a cluster is a single character composed of multiple graphemes, such as ``"\u{65}\u{301}"``.
+
+Let's try iterating through the characters with ``advance``
+
+.. sourcecode:: bash
+
+    let eAcute: Character = "\u{E9}"
+    let combinedEAcute: Character = "\u{65}\u{301}"
+    let blackHeart = "\u{2665}"
+    let smiley = "\u{263a}"
+
+    var s = "abc" + blackHeart + smiley
+    s.append(eAcute)
+    s.append(combinedEAcute)
+    println(s)
+    println(countElements(s))
+    for codeUnit in s.utf8 {
+        print("\(codeUnit) ")
+    }
+    print("\n")
+
+    var idx = s.startIndex
+    let end = s.endIndex
+    println(s[idx])
+
+    while true {
+        idx = advance(idx,1)
+        if idx == end { break }
+        println(s[idx])
+    }
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    abc♥☺éé
+    7
+    97 98 99 226 153 165 226 152 186 195 169 101 204 129 
+    a
+    b
+    c
+    ♥
+    ☺
+    é
+    é
+    >
 
 .. _range:
 

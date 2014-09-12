@@ -98,6 +98,22 @@ An initializer is exactly as you would expect, if you imagined making a struct m
 
 Not complicated.  Let's leave subscripts, extension and protocols for later.
 
+It is possible to print out a nice (programmer-designed) string to describe a struct or class.  ``description`` is a variable (not a method), which must implement ``get``.  It looks like this:
+
+.. sourcecode:: bash
+
+    var description: String {
+        get {
+            return "my string with some variable:  \(v)"
+        }
+    }
+
+This wasn't working for me, but I discovered that my standard compilation method fails in some cases where other approaches (such as Playgrounds) work.  To make this work compile it as follows:
+
+.. sourcecode:: bash
+
+    xcrun -sdk macosx swiftc codefile.swift
+
 One more thing about structs.
 
     By default, the properties of a value type cannot be modified from within its instance methods.  
@@ -135,8 +151,10 @@ Classes
         init(name: String) {
             self.name = name
         }
-        func description() -> String {
-            return "Obj: \(self.name)"
+        var description: String {
+            get {
+                return "Obj: \(self.name)"
+            }
         }
     }
 
@@ -229,7 +247,9 @@ If the definition is multiple lines, it's slightly different:
 
     > xcrun swift test.swift 
     Watch out for penguins
-    > 
+    >
+    
+If you see a leading period on something (like ``.None``), it's an enumeration.
 
 Enumerations in Swift are much more sophisticated than what you might be used to from other languages.
 

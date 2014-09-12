@@ -28,7 +28,7 @@ The two basic collection types are arrays and dictionaries, which use syntax som
 
 Array access starts from ``0`` (indexing is 0-based).  Notice the simplicity of the ``for f in fruits`` usage.  
 
-To check the number of items in an array, use ``count``.  If there are no items, then ``isEmpty()`` will return ``true``.
+To check the number of items in an array, query the ``count`` property, or use ``countElements(a)``.  If there are no items, then ``isEmpty()`` will return ``true``.
 
 .. sourcecode:: bash
     
@@ -68,7 +68,7 @@ Arrays have properties ``first`` and ``last``
     Optional(1), Optional(4)
     >
 
-They can also test whether a value is included:
+There is a global function ``contains`` to test whether a value is included:
 
 .. sourcecode:: bash
 
@@ -83,7 +83,7 @@ Modifying an array
 
 One way is to use subscript access, as shown above.
  
-Another way to insert at a particular position, is to use ``insert(value, atIndex: index)``, like so:
+To insert at a particular position, use ``insert(value, atIndex: index)``, like so:
 
 .. sourcecode:: bash
 
@@ -94,7 +94,7 @@ Another way to insert at a particular position, is to use ``insert(value, atInde
     println(a.count)
     \\ 4
 
-If we're adding onto the end, use ``append`` for a single value or what is really nice, **use concatenation as the equivalent of Python's ``extend``**
+When adding onto the end, use ``append`` for a single value or what is really nice, **use concatenation as the equivalent of Python's ``extend``**
 
 .. sourcecode:: bash
 
@@ -124,6 +124,8 @@ The valid indexes in an array run from 0 to ``count - 1`` so we can do:
     array[3...end] = ["x","y","z"]
     println(array)
     // ["a","b","c","x","y","z"]
+    
+(or just use ``array[0...count-1]``).
 
 As the docs say
 
@@ -161,6 +163,8 @@ Removing a value by index
     a.insert("x", atIndex:0)
     println(a)
 
+``removeAtIndex`` returns the value:
+
 .. sourcecode:: bash
 
     > xcrun swift test.swift
@@ -176,7 +180,7 @@ Rather than ``pop`` use ``removeLast``:
     var a = [4,5,6]
     let b = a.removeLast()
     // a has the value [4,5]
-    // b has the value 4
+    // b has the value 6
 
 One can specify the type of an array using two synonymous approaches:  ``[Int]`` or ``Array<Int>``.  Usually the first, shorthand way is preferred.  To instantiate, add the call operator ``()``:
 
@@ -202,7 +206,7 @@ One can specify the type of an array using two synonymous approaches:  ``[Int]``
     
 In this last example, we've used string interpolation to print the value of the property ``count``.
 
-This works as you'd expect
+``repeatedValue`` works as you'd expect
 
 .. sourcecode:: bash
 
@@ -299,24 +303,6 @@ If you pass an array to a function with the intention of modifying it, declare t
         }
     }
 
-    func insertion_sort(inout a: [Int]) {
-        for i in 1...a.count-1 {
-            // a[0...i] are guaranteed to be sorted
-            var tmp = Array(a[0...i])
-
-            // go up to penultimate value
-            let v = tmp.last!
-            for j in 0...tmp.count - 2 {
-                if tmp[j] > v {
-                    tmp.insert(v, atIndex:j)
-                    tmp.removeLast()
-                    break
-                }
-            }
-            a[0...i] = tmp[0...tmp.count-1]
-        }
-    }
-
     var a = [32,7,100,29,55,3,19,82,23]
     pp("a: ", a)
 
@@ -326,13 +312,7 @@ If you pass an array to a function with the intention of modifying it, declare t
     var c = a
     pp("c: ", c)
     selection_sort(&c)
-    pp("c: ", c)
-
-    var d = a
-    pp("d: ", d)
-    insertion_sort(&d)
-    pp("d: ", d)
-    
+    pp("c: ", c)    
 
 .. sourcecode:: bash
 
@@ -345,7 +325,7 @@ If you pass an array to a function with the intention of modifying it, declare t
     d:  3 7 19 23 29 32 55 82 100 
     >
 
-If you forget to do this you'll get a funny error:
+If you forget ``inout`` in the parameters, or ``&`` in the call, you'll get a funny error:
 
 .. sourcecode:: bash
 
@@ -376,7 +356,7 @@ To obtain a sorted array, one can use either ``sort`` (in-place sort) or ``sorte
     [Alex, Barry, Chris]
     >
 
-The use of ``let`` looks a little strange, but here the "constant" designation just means that the length of the array can't be changed, although one *can* still change the values.
+The use of ``let`` looks a little strange (and it is), but here the "constant" designation just means that the length of the array can't be changed, although one *can* still change the values.
 
 .. sourcecode:: bash
 
@@ -384,9 +364,9 @@ The use of ``let`` looks a little strange, but here the "constant" designation j
     a.sort { $0 < $1 }
     println(a)
 
-This also prints what you might guess.  It's a bit advanced, because we are using a closure (notice the brackets ``{ }``) rather than a named function.  We looked at the use of closures elsewhere (:ref:`closures`).  
+This also prints what you might guess.  It's a bit advanced, because we are using a closure (with brackets ``{ }``) rather than a named function.  See (:ref:`closures`).  
 
-One of the unusual properties of closures is that under certain circumstances (what is called a "trailing closure" as a single argument), there is no need for a call operator ``( )``, even though ``sort`` is being called with the closure as its argument.  
+One of the unusual properties of closures is that under certain circumstances (what is called a "trailing closure" as a single argument), there is no need for a call operator ``( )``, even though ``sort`` is being called with the closure as its second argument.  
 
 The important thing is that you must provide a comparison method, you can't just call ``sort``.
 
@@ -498,7 +478,7 @@ Here is the example from the docs:
 
 .. sourcecode:: bash
 
-    var airports = ["DUB":Dublin, TYO:"Tokyo"]
+    var airports = ["DUB":Dublin, "TYO":"Tokyo"]
     for code in airports {
         println("\(code): \(airports[code])")
     }
@@ -565,7 +545,7 @@ The dictionary method ``updateValue`` returns the old value if present, otherwis
     [cookie: 100, apple: 0, banana: 2]
     >
 
-As usual for a dictionary, the keys are in a particular method based on their hash values, but appear to be unsorted.
+As usual for a dictionary, the keys *are in a particular order* (based on their hash values), but they're not in lexicographical order and appear to be unsorted.
 
 .. sourcecode:: bash
 
@@ -584,7 +564,7 @@ As usual for a dictionary, the keys are in a particular method based on their ha
 dict(zip(a,b)) idiom
 --------------------
 
-I didn't see anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So we'll roll our own:
+I don't think there is anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So we'll roll our own:
 
 .. sourcecode:: bash
 
@@ -609,7 +589,7 @@ I didn't see anything comparable to Python's ``dict(zip(key_list,value_list))`` 
     [1: apple, 2: banana, 3: cookie]
     >
 
-Later, I did find Swift's ``zip``, it is called ``Zip2``
+Update:  I did find Swift's ``zip``, it is called ``Zip2``
 
 .. sourcecode:: bash
 
@@ -636,7 +616,7 @@ Later, I did find Swift's ``zip``, it is called ``Zip2``
 Matrix
 ******
 
-The docs have an example of a two-dimensional array or matrix of double values.  I've modified it to store Ints
+The docs have an example of a two-dimensional array or matrix of double values.  I've modified it to store Ints.  The row and column variables provide entry to the underlying data structure, which is just an array of Ints.
 
 .. sourcecode:: bash
 
@@ -677,7 +657,7 @@ The docs have an example of a two-dimensional array or matrix of double values. 
     3 0
 
 I'm going to strip out the error checking since I never make mistakes.  :)
-And then I want a more flexible way of printing the matrix.  To build each line of the output, I want to convert a slice, obtained by calling ``grid[range]``, to a String.  I found this:
+And then I want a more flexible way of printing the matrix.  To build each line of the output, convert a slice, obtained by calling ``grid[range]``, to a String.  I found this:
 
 http://vperi.com/2014/06/04/flatten-an-array-to-a-string-swift-extension/
 

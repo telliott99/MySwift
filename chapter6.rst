@@ -332,7 +332,7 @@ This *almost* works.  For some reason, it isn't printing the representation corr
     [test.Obj]
     >
 
-Here is another simple example that follows the instructions but fails currently.  Of course, Xcode is beta at the moment I write this, so it might not be me  :)
+Here is another simple example.
 
 .. sourcecode:: bash
 
@@ -350,7 +350,46 @@ Here is another simple example that follows the instructions but fails currently
 
     var o = Obj()
     println("\(o)")
-    // test.Obj
+
+.. sourcecode:: bash
+    
+    > xcrun swift test.swift
+    test.Obj
+    > xcrun -sdk macosx swiftc test.swift && test
+    > xcrun -sdk macosx swiftc test.swift && ./test
+    Obj: 1410536845136505
+    >
+    
+Notice that it only works correctly by invoking the swift compiler directly (method 2).
+    
+Declarations involving generics can get pretty complicated:
+
+.. sourcecode:: bash
+
+    func anyCommonElements <T, U where
+        T: SequenceType, U: SequenceType, 
+        T.Generator.Element: Equatable,   
+        T.Generator.Element == U.Generator.Element> 
+        (lhs: T, rhs: U) -> Bool {
+        for lhsItem in lhs {
+            for rhsItem in rhs {
+                if lhsItem == rhsItem {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    println("\(anyCommonElements([1, 2, 3], [3]))")
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    true
+    >
+
+Note:  this is a highly inefficient way to do this, but it works.  To make it more efficient, sort both arrays, or use a dictionary.
 
 ***************
 Sort Algorithms
@@ -651,7 +690,7 @@ Here is the resulting figure:
 NSCoding protocol
 *****************
 
-This works, but I have to run it in a special way.
+This works, but I have to run it in the special way (with ``-sdk macosx swiftc``).
 
 http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
 
