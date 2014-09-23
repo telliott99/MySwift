@@ -10,6 +10,7 @@ Contents:
    compiling_swift
    strings
    characters
+   tuples
    range
    loops
    optionals

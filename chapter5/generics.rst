@@ -90,7 +90,19 @@ You might have wondered about the function's name (swapTwo).  The reason for thi
     > xcrun swift test.swift
     x = 1, y = 2
     x = 2, y = 1
-    > 
+    >
+
+Here is reimplementation of the Optional enum type:
+
+.. sourcecode:: bash
+
+    enum OptionalValue<T> {
+        case None
+        case Some(T)
+    }
+    
+    var maybeInt: OptionalValue<Int> = .None
+    maybeInt = .Some(100)
 
 -----
 Stack
@@ -356,7 +368,7 @@ Here is another simple example.
     
 Notice that it only works correctly by invoking the swift compiler directly (method 2).
     
-Declarations involving generics can get pretty complicated:
+Declarations involving generics can get pretty complicated.  Notice all the qualifiers that come after ``where``.  (Also, this example has changed since the Swift book was released, ``Sequence`` has become ``SequenceType`` and ``T.Generator.Element`` replaces ``T.GeneratorType.Element``).
 
 .. sourcecode:: bash
 

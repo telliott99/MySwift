@@ -85,3 +85,28 @@ Another idiom in Swift is "optional binding"
     }
 
 Normally one has to use a Boolean value in an ``if`` construct, but here we're allowed to use an optional.  If it evaluates to ``nil`` we do the ``else``, otherwise ``n`` has an Int value and we can use it.
+
+A bit stranger is the "implicitly unwrapped optional":
+
+    Sometimes it is clear from a program’s structure that an optional will always have a value, after that value is first set. In these cases, it is useful to remove the need to check and unwrap the optional's value every time it is accessed, because it can be safely assumed to have a value all of the time.
+
+    These kinds of optionals are defined as implicitly unwrapped optionals. You write an implicitly unwrapped optional by placing an exclamation mark (String!) rather than a question mark (String?) after the type..
+    
+.. sourcecode:: bash
+    
+    let possibleString: String? = "standard optional string"
+    println("\(possibleString!)")
+
+    let assumedString: String! = "implicitly unwrapped optional"
+    if assumedString != nil {
+        println("\(assumedString)")
+    }
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    standard optional string
+    implicitly unwrapped optional
+    >
+
+The second string is an uptional (and could have nil assigned to it), but we are telling the compiler that we will check to make sure it's non-nil right away, and we're requesting the convenience of not having to write ``assumedString!`` everywhere we want to access its value.
