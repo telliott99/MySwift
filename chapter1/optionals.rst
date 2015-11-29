@@ -12,8 +12,8 @@ It's useful to allow an operation that may or may not succeed, and if it doesn't
     let m: Int? = s.toInt()
     s += "x"
     let n: Int? = s.toInt()
-    println(m)
-    println(n)
+    print(m)
+    print(n)
 
 The second conversion ``s.toInt()`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
 
@@ -31,9 +31,9 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     let m: Int? = "123x".toInt()
     let n = "123".toInt()
     // "forced unwrapping"
-    if m != nil { println("m = toInt() worked: \(m!)") }
-    if n != nil { println("n = toInt() worked: \(n!)") }
-    if let o = "123".toInt() {  println("really") }
+    if m != nil { print("m = toInt() worked: \(m!)") }
+    if n != nil { print("n = toInt() worked: \(n!)") }
+    if let o = "123".toInt() {  print("really") }
     
 .. sourcecode:: bash
 
@@ -59,7 +59,7 @@ Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, wh
     for i in 1...10 {
         n = getOptional()
         if (n != nil) { 
-            println("\(i): \(n!)")
+            print("\(i): \(n!)")
         }
     }
 
@@ -78,10 +78,10 @@ Another idiom in Swift is "optional binding"
 .. sourcecode:: bash
 
     if let n = dodgyNumber.toInt() {
-        println("\(dodgyNumber) has an integer value of \(n)")
+        print("\(dodgyNumber) has an integer value of \(n)")
            } 
     else {
-        println("\(dodgyNumber) could not be converted to an integer")
+        print("\(dodgyNumber) could not be converted to an integer")
     }
 
 Normally one has to use a Boolean value in an ``if`` construct, but here we're allowed to use an optional.  If it evaluates to ``nil`` we do the ``else``, otherwise ``n`` has an Int value and we can use it.
@@ -95,11 +95,11 @@ A bit stranger is the "implicitly unwrapped optional":
 .. sourcecode:: bash
     
     let possibleString: String? = "standard optional string"
-    println("\(possibleString!)")
+    print("\(possibleString!)")
 
     let assumedString: String! = "implicitly unwrapped optional"
     if assumedString != nil {
-        println("\(assumedString)")
+        print("\(assumedString)")
     }
 
 .. sourcecode:: bash

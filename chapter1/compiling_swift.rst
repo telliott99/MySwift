@@ -18,7 +18,7 @@ With this file on the Desktop
 
 .. sourcecode:: bash
 
-    println("Hello Swift world")
+    print("Hello Swift world")
 
 .. sourcecode:: bash
 
@@ -50,7 +50,7 @@ or both steps at once
     
 I have observed a few constructs that work correctly by this last method and not by my standard one.
 
-As shown above, a basic print statement is ``println("a string")`` or ``print("a string")``.  Notice the absence of semicolons.
+As shown above, a basic print statement is ``print("a string")`` or ``print("a string")``.  Notice the absence of semicolons.
 
 One can also do variable substitution, like this
 
@@ -59,7 +59,7 @@ One can also do variable substitution, like this
 .. sourcecode:: bash
 
     var n = "Tom"
-    println("Hello \(n)")
+    print("Hello \(n)")
 
 .. sourcecode:: bash
 
@@ -76,16 +76,16 @@ We're going to switch filenames now to
 .. sourcecode:: bash
 
     var x: Int = 2
-    println(x)
+    print(x)
     var s: String = String(x)
-    println(s)
+    print(s)
     
 This works, and prints what you'd expect.  If a value is not going to change (a constant), use ``let``:
 
 .. sourcecode:: bash
 
     let s = "Hello"
-    println("\(s)")
+    print("\(s)")
 
 which also works, and prints what you'd expect.  
 
@@ -97,5 +97,5 @@ The usual Swift style would be:
 
     var x = 2
     var f = 1.23e4
-    println(f)
+    print(f)
     // prints:  12300

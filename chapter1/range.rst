@@ -52,7 +52,7 @@ To reverse a range, use ``reverse``
 .. sourcecode:: bash
 
     for i in reverse(1...3) { print(String(i) + " ") }
-    println()
+    print()
 
 .. sourcecode:: bash
 
@@ -67,7 +67,7 @@ There is also ``stride``, sort of like ``range`` in Python with the optional thi
     for i in stride(from: 0, through: -4, by: -2) {
       print(i)
     }
-    println
+    print
 
 .. sourcecode:: bash
 
@@ -80,7 +80,7 @@ There is also ``stride``, sort of like ``range`` in Python with the optional thi
     for i in lazy(0...5).reverse() {
         print(String(i) + " ")
     }
-    println()
+    print()
 
 .. sourcecode:: bash
 
@@ -97,9 +97,9 @@ And finally:
     let x = 6
     switch (x) {
         case (5...10):
-            println("OK")
+            print("OK")
         default:
-            println("not in interval")
+            print("not in interval")
     }
     // OK
 
@@ -110,8 +110,8 @@ And finally:
 
     switch (x,y) {
         case (5...10, 3...6):
-            println("OK")
+            print("OK")
         default:
-            println("not in interval")
+            print("not in interval")
     }
     // also OK

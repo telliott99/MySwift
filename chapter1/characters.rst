@@ -14,7 +14,7 @@ which converts the string ``"a"`` to the corresponding character.  Or, when iter
 
 .. sourcecode:: bash
 
-    for c in "abc":  println(c)
+    for c in "abc":  print(c)
     
 To put a character back into a String, you can do this:
 
@@ -23,7 +23,7 @@ To put a character back into a String, you can do this:
     var s = ""
     let c: Character = "a"
     s.append(c)
-    println(s)  // a
+    print(s)  // a
     
 As of recently, the ``+=`` operator is only for "concatenate", so this doesn't work any more:
 
@@ -41,10 +41,10 @@ A concatenation example:
     let c1: Character = "a"
     let c2: Character = "b"
     let a = [c1,c2]
-    println(a)
+    print(a)
 
     let s = "" + a
-    println(s)
+    print(s)
     
 .. sourcecode:: bash
 
@@ -90,7 +90,7 @@ Here is an example of a String literal (``blackHeart``) formed from a Unicode sc
 .. sourcecode:: bash
 
     let blackHeart = "\u{2665}"
-    println("I " + blackHeart " you")
+    print("I " + blackHeart " you")
     
 .. sourcecode:: bash
 
@@ -209,7 +209,7 @@ And now, the big question is, how many characters are there in ``blackHeart``?
 
     let blackHeart = "\u{2665}"
     print(blackHeart + " ")
-    println(countElements(blackHeart))
+    print(countElements(blackHeart))
     
 .. sourcecode:: bash
 
@@ -227,11 +227,11 @@ Expand the example:
 
     let blackHeart = "\u{2665}"
     print(blackHeart + " ")
-    println(countElements(blackHeart))
+    print(countElements(blackHeart))
 
     var str = NSString.stringWithString(blackHeart)
-    println(str.length)
-    println(str.characterAtIndex(0))
+    print(str.length)
+    print(str.characterAtIndex(0))
     
 NSString says:
 
@@ -256,9 +256,9 @@ Here is another example, from the docs, where the same character can be formed i
 
     let s1 = "" + eAcute
     let s2 = "" + combinedEAcute
-    println(countElements(s1))
-    println(countElements(s2))
-    println(eAcute == combinedEAcute)
+    print(countElements(s1))
+    print(countElements(s2))
+    print(eAcute == combinedEAcute)
 
 .. sourcecode:: bash
 
@@ -274,9 +274,9 @@ Now try the same thing with NSString:
 
     let s3 = NSString.stringWithString(s1)
     let s4 = NSString.stringWithString(s2)
-    println("\(s3.length)")
-    println("\(s4.length)")
-    println(s3.isEqualTo(s4))
+    print("\(s3.length)")
+    print("\(s4.length)")
+    print(s3.isEqualTo(s4))
 
 .. sourcecode:: bash
 
@@ -303,8 +303,8 @@ Let's try iterating through the characters with ``advance``
     var s = "abc" + blackHeart + smiley
     s.append(eAcute)
     s.append(combinedEAcute)
-    println(s)
-    println(countElements(s))
+    print(s)
+    print(countElements(s))
     for codeUnit in s.utf8 {
         print("\(codeUnit) ")
     }
@@ -312,12 +312,12 @@ Let's try iterating through the characters with ``advance``
 
     var idx = s.startIndex
     let end = s.endIndex
-    println(s[idx])
+    print(s[idx])
 
     while true {
         idx = advance(idx,1)
         if idx == end { break }
-        println(s[idx])
+        print(s[idx])
     }
 
 .. sourcecode:: bash
@@ -346,7 +346,7 @@ Finally, here is an example of incorporating characters into a String by using t
     let dog: Character = "\u{1F436}"
     let cow: Character = "\u{1F42E}"
     let dogCow = "\(dog) \(cow)"
-    println("\(dogCow)")
+    print("\(dogCow)")
 
     // alternatively
     let alt_dogCow = dog + cow
@@ -365,12 +365,12 @@ If you want to convert a String to data (of UTF-8 encoding), one way is to do th
     for codeunit in dog.utf8 {
         print("\(codeunit) ")
     }
-    println()
+    print()
 
     for codeunit in "Tom".utf8 {
         print("\(codeunit) ")
     }
-    println()
+    print()
 
 .. sourcecode:: bash
 

@@ -74,7 +74,7 @@ A method (just like in a class)
 
     struct S {
         var n: Int
-        var description() : String {
+        var description: String {
             get {
                 return "\(n)"
             }

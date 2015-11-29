@@ -10,7 +10,7 @@ We are going to use some arrays below, even though they haven't been introduced 
 
     var intList = [2,4,6]
     for x in intList { print(String(x) + " ")}
-    println()
+    print()
 
 .. sourcecode:: bash
 
@@ -26,7 +26,7 @@ We can get a range of values (including 3)
 
     var i:Int
     for i in 1...3 { print(String(i) + " ") }
-    println()
+    print()
 
 .. sourcecode:: bash
 
@@ -40,7 +40,7 @@ We can get a range of values (including 3)
 
     let s = "Tom,Sean,Joan"
     let names = s.componentsSeparatedByString(",")
-    println(names[0..<2])
+    print(names[0..<2])
 
 .. sourcecode:: bash
 
@@ -53,7 +53,7 @@ A while loop:
 .. sourcecode:: bash
 
     while true {
-        println("Yes")
+        print("Yes")
         break
     }
 
@@ -71,7 +71,7 @@ And a traditional loop
     for i = 0; i < 3; ++i {
         count += 1
     }
-    println(count)
+    print(count)
 
 .. sourcecode:: bash
 
@@ -87,7 +87,7 @@ If you want to access the value of ``i`` after the loop terminates, you must dec
     for i = 0; i < 3; ++i {
         ..
     }
-    println(i)
+    print(i)
     // i == 3  !!!
 
 An odd way to do something ``n`` times.  Notice the``_`` variable (a way of saying we will ignore this value, and it's not available inside the loop)
@@ -113,6 +113,6 @@ This is legal!
         if ifeellikeit {
             i += 7
         }
-        println
+        print()
     }
     \\ prints 0 9 10

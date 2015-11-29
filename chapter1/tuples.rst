@@ -11,13 +11,13 @@ Tuples contains two or more values of any type you like.
     let status = (404, "Not Found")
 
     // access by dot
-    println("\(status.1)")
+    print("\(status.1)")
 
     let (_,str) = status
-    println("\(str)")
+    print("\(str)")
 
     let status2 = (statusCode:200, description:"OK")
-    println("\(status2.description)")
+    print("\(status2.description)")
 
 .. sourcecode:: bash
 
@@ -40,7 +40,7 @@ Tuples can be used to return multiple values from a function.  A silly example:
     }
 
     let (_, count) = f("Swift")
-    println("\(count)")
+    print("\(count)")
 
 .. sourcecode:: bash
 
@@ -57,16 +57,16 @@ Tuples can be used for multiple assignment:
     }
 
     let (i,j) = (1,2)
-    println("i: \(i) j: \(j)")
+    print("i: \(i) j: \(j)")
     var (x,y) = (i,j)
-    println("x: \(x) y: \(y)")
+    print("x: \(x) y: \(y)")
     (x,y) = myswap(x,y)
-    println("x: \(x) y: \(y)")
+    print("x: \(x) y: \(y)")
     (x,y) = (y,x)
-    println("x: \(x) y: \(y)")
+    print("x: \(x) y: \(y)")
 
     var (a,b,c) = (1,2,3)
-    println("a: \(a) b: \(b) c: \(c)")
+    print("a: \(a) b: \(b) c: \(c)")
     
 .. sourcecode:: bash
 

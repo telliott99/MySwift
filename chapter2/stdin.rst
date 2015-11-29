@@ -12,16 +12,19 @@ Here is an example of reading data from a file input on the command line in swif
 
     import Foundation
 
-    func readIntsFromStdIn() -> [Int]? {
-        let stdin = NSFileHandle.fileHandleWithStandardInput()
-        let data: NSData = stdin.availableData
-        let s: String = NSString.init(data: data, 
-            encoding:NSUTF8StringEncoding)
+    func get_input() -> NSString? {
+        let keyboard = NSFileHandle.fileHandleWithStandardInput()
+        let inputData = keyboard.availableData
+        let s = NSString(data: inputData, encoding: NSUTF8StringEncoding)
+        return s
+    }
+
+    func convert_string(s: NSString) -> [Int]? {
         let cs = NSCharacterSet.whitespaceAndNewlineCharacterSet()
         let sa: [String] = s.componentsSeparatedByCharactersInSet(cs)
         var a: [Int] = Array<Int>()
         for c in sa {
-            if let n = c.toInt() {
+            if let n = Int(c) {
                 a.append(n)
             }
         }
@@ -29,36 +32,18 @@ Here is an example of reading data from a file input on the command line in swif
         return a
     }
 
-    let arr = readIntsFromStdIn()
-    if arr != nil {
-        println("\(arr!)")
+    let s = get_input()
+    if (s != nil) {
+        let a = convert_string(s!)
+        if (a != nil) {
+            print(a!)
+        }
     }
-    
-Since we might not read any ``Int`` data, I made the return type an Optional.
-
-The data we will read looks like this:
-
-``x.txt``
 
 .. sourcecode:: bash
 
-    43 39 65
-    22	102
-
-When examined with ``hexdump`` we see that in addition to the newline (``\x0a``) and spaces (``\x20``), the data also has one tab (``\x09``):
-
-.. sourcecode:: bash
-
-    > hexdump -C x.txt
-    00000000  34 33 20 33 39 20 36 35  0a 32 32 09 31 30 32     |43 39 65.22.102|
-    0000000f
+    > xcrun swift test_stdin.swift < x.txt
+    [1, 2, 3]
     >
 
-.. sourcecode:: bash
-
-    > xcrun -sdk macosx swiftc test.swift
-    > ./test < x.txt
-    [43, 39, 65, 22, 102]
-    >
-
-Looks like it's working fine.
+Note:  if run without ``< x.txt``, it will hang, awaiting keyboard input.  I haven't figured out how to write to stdout conditionally to cover that case.

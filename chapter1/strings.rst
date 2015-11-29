@@ -16,7 +16,7 @@ This helped me to finally figure out some things that had been confusing.  Witho
 
     let s = "Tom,Sean,Joan"
     let names = s.componentsSeparatedByString(",")
-    println(names)
+    print(names)
 
 .. sourcecode:: bash
 
@@ -34,7 +34,7 @@ Another useful thing is that one can go back and forth between String and NSStri
 
     let s: NSString = "supercalifragilistic"
     let r = NSRange(location:0,length:5)
-    println(s.substringWithRange(r))
+    print(s.substringWithRange(r))
 
 .. sourcecode:: bash
 
@@ -45,7 +45,7 @@ Another useful thing is that one can go back and forth between String and NSStri
 .. sourcecode:: bash
 
     let s: NSString = "supercalifragilistic"
-    println(s.rangeOfString("cali"))
+    print(s.rangeOfString("cali"))
 
 .. sourcecode:: bash
 
